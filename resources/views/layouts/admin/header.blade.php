@@ -96,10 +96,10 @@
         </div>
       </li>
       <!-- Notifications Dropdown Menu -->
-    
-    
+
+
         <div>
-          <a href="{{ route('admin.login') }}">
+          <a href="{{ route('admin.logout') }}">
             <span class="text-muted text-sm">Logout</span>
           </a>
         </div>

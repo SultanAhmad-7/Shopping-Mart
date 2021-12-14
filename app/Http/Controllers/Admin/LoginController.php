@@ -10,18 +10,22 @@ use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
-    
+
     // public function __construct()
     // {
     // $this->middleware('guest:admin')->only(route('admin.login'));
     // }
-  
+
     public function login() {
-        return view('admin.login');
+        if(Auth::guard('admin')->check()){
+            return redirect(route('admin.dashboard'));
+        }else{
+            return view('admin.login');
+        }
     }
 
     public function checkLoginCredentials(Request $request) {
-       
+
            // return Hash::make(1234); die(); // password here is 1234
         if($request->isMethod('POST')){
             $credentials = $request->only('email','password');
@@ -41,5 +45,5 @@ class LoginController extends Controller
         return view('admin.dashboard');
     }
 
-    
+
 }

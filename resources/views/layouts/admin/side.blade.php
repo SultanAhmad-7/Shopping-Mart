@@ -1,4 +1,7 @@
-  <!-- Main Sidebar Container -->
+<?php
+$uri = Request::segment(2);
+?>
+<!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
@@ -52,9 +55,9 @@
               </li>
             </ul>
           </li>
-  
-          <li class="nav-item">
-            <a href="#" class="nav-link">
+          @php $userModuleArray = ['users', 'edit_user','add_user']; @endphp
+          <li class="nav-item {{ in_array( $uri, $userModuleArray) ? "menu-open" : ""}}">
+            <a href="#" class="nav-link {{ in_array( $uri, $userModuleArray) ? "active" : ""}}" >
               <i class="nav-icon fas fa-copy"></i>
               <p>
                 Users
@@ -63,9 +66,15 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('user.list') }}" class="nav-link">
+                <a href="{{ route('user.list') }}" class="nav-link {{ in_array($uri, ["users", "edit_user"]) ? "active" : ""}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>All Users</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('user.list') }}" class="nav-link {{$uri == "add_user" ? "active" : ""}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add User</p>
                 </a>
               </li>
             </ul>

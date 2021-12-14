@@ -30,7 +30,7 @@ Route::post('admin/login','Admin\LoginController@checkLoginCredentials')->name('
 Route::prefix('admin')->namespace('Admin')->group(function() {
  Route::group(['middleware' => ['admin']], function() {
      Route::get('dashboard', 'LoginController@dashboard')->name('admin.dashboard');
-     Route::get('logout', 'LoginController@logout');
+     Route::get('logout', 'LoginController@logout')->name('admin.logout');
 
      // Users Route
      Route::get('users','UserController@index')->name('user.list');

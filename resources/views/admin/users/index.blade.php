@@ -25,7 +25,7 @@
       <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-              <h3 class="card-title">DataTable with default features</h3>
+              <h3 class="card-title">All users</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -48,15 +48,15 @@
                         @if ($user->status == 1)
                         <td> <a href="#"><span class="badge rounded-pill bg-info text-dark">Active</span></a></td>
                         @else
-                        <td> <a href="#"><span class="badge rounded-pill bg-danger text-dark">Un-Active</span></a></td>
+                        <td> <a href="#"><span class="badge rounded-pill bg-danger text-dark">In-Active</span></a></td>
                         @endif
-                        
+
                         <td> <a href="#" class="btn btn-danger btn-sm">Delete</a></td>
                       </tr>
                     @empty
                     <p class="alert alert-warning">No Record Found</p>
                     @endforelse
-                
+
                 </tbody>
                 <tfoot>
                 <tr>
