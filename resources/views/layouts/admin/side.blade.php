@@ -129,7 +129,12 @@ $uri = Request::segment(2);
                    <p>All Categories</p>
                  </a>
                </li>
-             
+               <li class="nav-item">
+                <a href="{{ route('category.add') }}" class="nav-link {{$uri == "create" ? "active" : ""}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Category</p>
+                </a>
+              </li>
              </ul>
            </li>
           
