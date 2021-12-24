@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard</title>
+  <title>Ecommerce | Dashboard</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -64,7 +64,9 @@
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ url('admin_assets/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-
+{{-- Custom admin_script js file to update Status --}}
+<script src="{{ url('admin_assets/dist/js/admin_script.js')}}"></script>
+<script src="{{ url('admin_assets/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <!-- Bootstrap 4 -->
 <script src="{{ url('admin_assets/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- ChartJS -->
@@ -104,6 +106,7 @@
 <script src="{{ url('admin_assets/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
 <script src="{{ url('admin_assets/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
 <script src="{{ url('admin_assets/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+
 <script>
   $(function () {
     $("#example1").DataTable({

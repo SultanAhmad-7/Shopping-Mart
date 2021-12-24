@@ -12,7 +12,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">All Users</li>
+              <li class="breadcrumb-item active">All Categories</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -25,7 +25,7 @@
       <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-              <h3 class="card-title">All users</h3>
+              <h3 class="card-title">All Categories</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -33,22 +33,22 @@
                 <thead>
                 <tr>
                   <th>#</th>
-                  <th>User Name</th>
-                  <th>Email</th>
+                  <th>Category Name</th>
+                  <th>Category Discount</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                    @forelse ($users as $user)
+                    @forelse ($categories as $category)
                     <tr>
-                        <td>{{ $user->id}}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email}}</td>
-                        @if ($user->status == 1)
-                        <td> <a href="javascript:void(0)" id="user-{{$user->id}}" user_id="{{ $user->id }}" class="updateUserStatus"><span class="badge rounded-pill bg-info text-dark">UnBlock</span></a></td>
+                        <td>{{ $category->id}}</td>
+                        <td>{{ $category->category_name }}</td>
+                        <td>{{ $category->category_discount }}</td>
+                        @if ($category->status == 1)
+                        <td> <a href="javascript:void(0)" id="category-{{$category->id}}" category_id="{{$category->id}}" class="updateCategoryStatus"><span  class="badge rounded-pill bg-info text-dark text-sm">Active</span></a></td>
                         @else
-                        <td> <a href="javascript:void(0)" id="user-{{$user->id}}" user_id="{{ $user->id }}" class="updateUserStatus"><span class="badge rounded-pill bg-danger text-dark">Block</span></a></td>
+                        <td> <a href="javascript:void(0)" id="category-{{$category->id}}" category_id="{{$category->id}}" class="updateCategoryStatus"><span  class="badge rounded-pill bg-danger text-dark text-sm">Inactive</span></a></td>
                         @endif
 
                         <td> <a href="#" class="btn btn-danger btn-sm">Delete</a></td>
@@ -61,8 +61,8 @@
                 <tfoot>
                 <tr>
                     <th>#</th>
-                    <th>User Name</th>
-                    <th>Email</th>
+                    <th>Category Name</th>
+                    <th>Category Discount</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
