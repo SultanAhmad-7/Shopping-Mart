@@ -84,4 +84,18 @@ class CategoryController extends Controller
     {
         //
     }
+
+    public function updateCategoryStatus(Request $request)
+    {
+        if($request->ajax()){
+            $data = $request->all();
+            if($data['status'] == 'Active'){
+                $status = 0;
+            }else{
+                $status = 1;
+            }
+            Category::where('id', $data['category_id'])->update(['status' => $status]);
+            return response()->json(['status' => $status, 'category_id' => $data['category_id']]);
+        }
+    }
 }

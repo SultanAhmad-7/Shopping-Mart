@@ -41,11 +41,22 @@ $('.updateUserStatus').click(function() {
 
 // Category Status Active and Inactive
 
-$('.updateCategoryStatus').click(function(){
-        window.alert("This is the category");
-    
-    // let status = $(this).text();
-    // let Category_id = $(this).attr('category_id');
+$('.updateCategoryStatus').click(function() {
 
-    // window.alert(status +" " + category_id);
+    let status = $(this).text();
+    let category_id = $(this).attr('category_id');
+
+    //window.alert(" status " + status + " category_id-" + category_id);
+    $.ajax({
+        method: 'post',
+        url: '/admin/update-category-status',
+        data: { status: status, category_id: category_id },
+        success: function(result) {
+            if (result['status'] == 1) {
+                $('#category-' + category_id).html('<a href="javascript:void(0)" class="updateCategoryStatus"><span class="badge rounded-pill bg-info">Active</span></a>');
+            } else {
+                $('#category-' + category_id).html('<a href="javascript:void(0)" class="updateCategoryStatus"><span class="badge rounded-pill bg-danger">Inactive</span></a>');
+            }
+        }
+    });
 });
