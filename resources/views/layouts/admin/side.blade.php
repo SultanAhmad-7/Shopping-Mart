@@ -1,5 +1,6 @@
 <?php
 $uri = Request::segment(2);
+
 ?>
 <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -112,7 +113,7 @@ $uri = Request::segment(2);
 
            {{-- Category  links Defined Here --}}
            @php 
-           $categoryModuleArray = ['categories', 'category.lists'];
+           $categoryModuleArray = ['categories', 'category.lists','create-categories'];
            @endphp
            <li class="nav-item {{ in_array( $uri, $categoryModuleArray) ? "menu-open" : ""}}">
              <a href="#" class="nav-link {{ in_array( $uri, $categoryModuleArray) ? "active" : ""}}" >
@@ -130,7 +131,7 @@ $uri = Request::segment(2);
                  </a>
                </li>
                <li class="nav-item">
-                <a href="{{ route('category.add') }}" class="nav-link {{$uri == "create" ? "active" : ""}}">
+                <a href="{{ route('category.add') }}" class="nav-link {{ $uri == "create-categories"  ? "active" : ""}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Add Category</p>
                 </a>
