@@ -15,22 +15,10 @@ $uri = Request::segment(2);
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{{ url('admin_assets/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
+          <img src="{{ url('img/adm_img/admin_photos/'.Auth::guard('admin')->user()->image) }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">{{ ucwords(Auth::guard('admin')->user()->name)}}</a>
-        </div>
-      </div>
-
-      <!-- SidebarSearch Form -->
-      <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
         </div>
       </div>
 
@@ -56,7 +44,31 @@ $uri = Request::segment(2);
               </li>
             </ul>
           </li>
-
+          {{-- setting links --}}
+          @php $settingModuleArray = ['settings', 'update-admin-detail','update-admin-password']; @endphp
+          <li class="nav-item {{in_array($uri, $settingModuleArray) ? "menu-open" : ""}} menu-open">
+            <a href="#" class="nav-link {{ in_array($uri, $settingModuleArray) ? "active" : ""}}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Setting
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ url('/admin/update-admin-detail') }}" class="nav-link {{ $uri == "update-admin-detail" ? "active" : ""}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Edit Admin Detail</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ url('/admin/settings') }}" class="nav-link {{ $uri == "settings" ? "active" : ""}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Edit Admin Password</p>
+                </a>
+              </li>
+            </ul>
+          </li>
           {{-- User links Defined Here --}}
           @php $userModuleArray = ['users', 'edit_user','add_user']; @endphp
           <li class="nav-item {{ in_array( $uri, $userModuleArray) ? "menu-open" : ""}}">
@@ -85,7 +97,7 @@ $uri = Request::segment(2);
 
           {{-- Section  links Defined Here --}}
           @php 
-          $sectionModuleArray = ['sections', 'section.index','section.add'];
+          $sectionModuleArray = ['sections', 'section.index','create-section'];
           @endphp
           <li class="nav-item {{ in_array( $uri, $sectionModuleArray) ? "menu-open" : ""}}">
             <a href="#" class="nav-link {{ in_array( $uri, $sectionModuleArray) ? "active" : ""}}" >
@@ -103,7 +115,7 @@ $uri = Request::segment(2);
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('section.add') }}" class="nav-link {{$uri == "create" ? "active" : ""}}">
+                <a href="{{ route('section.add') }}" class="nav-link {{$uri == "create-section" ? "active" : ""}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Add Section</p>
                 </a>
