@@ -8,6 +8,6 @@ class Category extends Model
 {
     public function subCategories()
     {
-        return $this->hasMany(Category::class, 'parent_id','id')->where('status',1);
+        return $this->hasMany('App\Category', 'parent_id','id')->where('status',1);
     }
 }

@@ -4,10 +4,10 @@
       <option value="0">Main Category</option>
      @if (!empty($getCategories))
          @foreach($getCategories as $category)
-           <option value="{{ $category->id }}">{{$category->category_name}}</option>
-            @if (!empty($category->subCategories))
-              @foreach($category->subCategories as $sbcategory)
-                 <option value="{{ $sbcategory->id }}">&nbsp;&raquo;&nbsp;{{$sbcategory->category_name}}</option>
+           <option value="{{ $category['id'] }}">{{$category['category_name']}}</option>
+            @if (!empty($category['sub_categories']))
+              @foreach($category['sub_categories'] as $sbcategory)
+                 <option value="{{ $sbcategory['id'] }}">&nbsp;&raquo;&nbsp;{{$sbcategory['category_name']}}</option>
                @endforeach
              @endif
          @endforeach

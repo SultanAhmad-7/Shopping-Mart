@@ -51,6 +51,7 @@
                     <tr>
                         <td>{{ $category->id}}</td>
                         <td>{{ $category->category_name }}</td>
+                        <td>{{ $category->url}}</td>
                         <td>{{ $category->category_discount }}</td>
                         @if ($category->status == 1)
                         <td> <a href="javascript:void(0)" id="category-{{$category->id}}" category_id="{{$category->id}}" class="updateCategoryStatus"><span  class="badge rounded-pill bg-info text-dark text-sm">Active</span></a></td>
