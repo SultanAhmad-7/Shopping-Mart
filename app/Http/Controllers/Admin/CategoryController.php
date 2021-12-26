@@ -18,7 +18,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::with(['sections', 'parentCategory'])->get();
+       // $categories = json_decode(json_encode($categories), true);
+        // echo "<pre>";
+        // print_r($categories);
+        // die();
         return view('admin.categories.index')->with(compact('categories'));
     }
     /**
@@ -42,8 +46,22 @@ class CategoryController extends Controller
         if($id==""){
             $title = "Add Category";
             $category = new Category;
+            $editCategory = array();
+            $getCategories = array();
+            $message = "Category Added Successfully.";
         }else {
             $title = "Update Category";
+            $editCategory = Category::where('id', $id)->first();
+            $editCategory = json_decode(json_encode($editCategory), true);
+            // it will select section and categories.
+            $getCategories = Category::with('subCategories')->where(['section_id'=> $editCategory['section_id'], 'parent_id' => 0, 'status' => 1])->get();
+           $getCategories = json_decode(json_encode($getCategories),true);
+           $category = Category::find($id);
+           $message = "Category Updated Successfully.";
+           // use it for debugging purpose.
+            // echo "<pre>";
+            // print_r($getCategories);
+            // die();
             
         }
 
@@ -116,11 +134,12 @@ class CategoryController extends Controller
           $category->meta_keywords = $data['meta_keywords'];
           $category->status = 1;
           $category->save();
-          Session::flash('success_msg', "Category Added Successfully.");
+          Session::flash('success_msg', $message);
           return redirect('admin/categories');
         }
         $sections = Section::where('status',1)->get();
-        return view('admin.categories.add_edit_category')->with(compact('sections','title'));
+        return view('admin.categories.add_edit_category')
+                            ->with(compact('sections','title','editCategory', 'getCategories'));
     }
     
     // when section change category will be displayed according to section relation.

@@ -40,7 +40,10 @@
                 <thead>
                 <tr>
                   <th>#</th>
-                  <th>Category Name</th>
+                  <th>Category</th>
+                  <th>Parent Category</th>
+                  <th>Section</th>
+                  <th>URL</th>
                   <th>Category Discount</th>
                   <th>Status</th>
                   <th>Actions</th>
@@ -48,9 +51,20 @@
                 </thead>
                 <tbody>
                     @forelse ($categories as $category)
+                    @if (!isset($category->parentCategory->category_name))
+                        @php
+                          $parent_category = "Root";
+                        @endphp
+                    @else
+                    @php
+                    $parent_category = $category->parentCategory->category_name;
+                  @endphp
+                    @endif
                     <tr>
                         <td>{{ $category->id}}</td>
                         <td>{{ $category->category_name }}</td>
+                        <td> {{ $parent_category }}</td>
+                        <td>{{ $category->sections->name }}</td>
                         <td>{{ $category->url}}</td>
                         <td>{{ $category->category_discount }}</td>
                         @if ($category->status == 1)
@@ -58,7 +72,7 @@
                         @else
                         <td> <a href="javascript:void(0)" id="category-{{$category->id}}" category_id="{{$category->id}}" class="updateCategoryStatus"><span  class="badge rounded-pill bg-danger text-dark text-sm">Inactive</span></a></td>
                         @endif
-
+                        <td> <a href="{{ url('admin/add-edit-category',  $category->id ) }}" class="btn btn-info btn-sm">Edit</a></td>
                         <td> <a href="#" class="btn btn-danger btn-sm">Delete</a></td>
                       </tr>
                     @empty
@@ -68,11 +82,14 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                    <th>#</th>
-                    <th>Category Name</th>
-                    <th>Category Discount</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                  <th>#</th>
+                  <th>Category</th>
+                  <th>Parent Category</th>
+                  <th>Section</th>
+                  <th>URL</th>
+                  <th>Category Discount</th>
+                  <th>Status</th>
+                  <th>Actions</th>
                 </tr>
                 </tfoot>
               </table>

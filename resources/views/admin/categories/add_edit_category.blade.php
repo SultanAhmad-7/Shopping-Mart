@@ -38,11 +38,11 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-6">
-              <form id="categoryForm" name="categoryForm" action="{{ url('admin/add-edit-category') }}" method="post" enctype="multipart/form-data">
+              <form id="categoryForm" name="categoryForm" action="{{ empty($editCategory['id']) ?  url('admin/add-edit-category') : url('admin/add-edit-category', $editCategory['id']) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                   <label for="categoryName">Category Name</label>
-                  <input type="text" name="category_name" id="" value="{{ old('category_name') }}" class="form-control" placeholder="Enter The Category Name">
+                  <input type="text" name="category_name" id="" value="{{ !empty($editCategory['category_name']) ? $editCategory['category_name'] : old('category_name') }}" class="form-control" placeholder="Enter The Category Name">
                 </div>
                 <div id="appendCategoryLevel">
                   @include('admin.categories.append_category_level')
@@ -51,18 +51,18 @@
                {{-- category discount --}}
                <div class="form-group">
                 <label for="categoryDiscount">Category Discount</label>
-                <input type="number" name="category_discount" id="" class="form-control" placeholder="Category Discount">
+                <input type="number" name="category_discount" id="" value="{{ !empty($editCategory['category_discount']) ? $editCategory['category_discount'] : old('category_discount')}}" class="form-control" placeholder="Category Discount">
               </div>
               {{-- Category Description --}}
               <div class="form-group">
                 <label for="description">Category Description</label>
-                <textarea name="description" id="" cols="10" rows="03" class="form-control"></textarea>
+                <textarea name="description" id="" cols="10" rows="03" class="form-control">{{ !empty($editCategory['description']) ? $editCategory['description']: old('description')}}</textarea>
               </div>
 
               {{-- Meta Description --}}
               <div class="form-group">
                 <label for="metaDescription">Meta Description</label>
-                <textarea name="meta_description" id="" cols="10" rows="03" class="form-control"></textarea>
+                <textarea name="meta_description" id="" cols="10" rows="03" class="form-control">{{ !empty($editCategory['meta_description']) ? $editCategory['meta_description']: old('meta_description') }}</textarea>
               </div>
               </div>
               <!-- /.col -->
@@ -72,7 +72,9 @@
                   <select name="section_id" id="getSection_id" class="form-control select2" style="width: 100%;">
                     <option value="">Section</option>
                     @foreach ($sections as $section)
-                    <option value="{{ $section->id }}">{{ $section->name }}</option>    
+                    <option value="{{ $section->id }}" @if (!empty($editCategory['section_id']) && $editCategory['section_id'] == $section->id)
+                        selected
+                    @endif>{{ $section->name }}</option>    
                     @endforeach
                   </select>
                 </div>
@@ -94,17 +96,17 @@
                   {{-- category url --}}
               <div class="form-group">
                 <label for="categoryUrl">Category URL</label>
-                <input type="text" name="url" id="" class="form-control" placeholder="Category URL">
+                <input type="text" name="url" id="" class="form-control" value="{{ !empty($editCategory['url']) ? $editCategory['url'] : old('url')}}" placeholder="Category URL">
               </div>
               {{-- meta title --}}
               <div class="form-group">
                 <label for="metaTitle">Meta Title</label>
-                <textarea name="meta_title" id="" cols="10" rows="03" class="form-control"></textarea>
+                <textarea name="meta_title" id="" cols="10" rows="03" class="form-control">{{ !empty($editCategory['meta_title']) ? $editCategory['meta_title'] : old('meta_title')}}</textarea>
               </div>
               {{-- meta keywords --}}
               <div class="form-group">
                 <label for="metaKeywords">Meta Keywords</label>
-                <textarea name="meta_keywords" id="" cols="10" rows="03" class="form-control"></textarea>
+                <textarea name="meta_keywords" id="" cols="10" rows="03" class="form-control">{{ !empty($editCategory['meta_keywords']) ? $editCategory['meta_keywords'] : old('meta_keywords')}}</textarea>
               </div>
 
               </div>
