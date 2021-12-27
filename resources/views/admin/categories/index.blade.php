@@ -36,7 +36,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <table id="example1" class="table table-bordered table-striped">
+              <table id="categoryTable" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th>#</th>
@@ -50,6 +50,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                  @php
+                      $i=1;
+                  @endphp
                     @forelse ($categories as $category)
                     @if (!isset($category->parentCategory->category_name))
                         @php
@@ -58,10 +61,11 @@
                     @else
                     @php
                     $parent_category = $category->parentCategory->category_name;
+                   
                   @endphp
                     @endif
                     <tr>
-                        <td>{{ $category->id}}</td>
+                        <td>{{ $i++}}</td>
                         <td>{{ $category->category_name }}</td>
                         <td> {{ $parent_category }}</td>
                         <td>{{ $category->sections->name }}</td>
@@ -72,8 +76,7 @@
                         @else
                         <td> <a href="javascript:void(0)" id="category-{{$category->id}}" category_id="{{$category->id}}" class="updateCategoryStatus"><span  class="badge rounded-pill bg-danger text-dark text-sm">Inactive</span></a></td>
                         @endif
-                        <td> <a href="{{ url('admin/add-edit-category',  $category->id ) }}" class="btn btn-info btn-sm">Edit</a></td>
-                        <td> <a href="#" class="btn btn-danger btn-sm">Delete</a></td>
+                        <td> <a href="{{ url('admin/add-edit-category',  $category->id ) }}" class="btn btn-info btn-sm">Edit</a> <a record="category" recordid="{{ $category->id }}" href="{{-- url('admin/delete-category', $category->id) --}}" class="btn btn-danger btn-sm confirmDelete" >Delete</a></td>                        
                       </tr>
                     @empty
                     <p class="alert alert-warning">No Record Found</p>

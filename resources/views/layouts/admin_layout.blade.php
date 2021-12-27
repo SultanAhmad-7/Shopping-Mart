@@ -93,6 +93,7 @@
 {{-- <script src="{{ url('admin_assets/dist/js/demo.js')}}"></script> --}}
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ url('admin_assets/dist/js/pages/dashboard.js')}}"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- DataTables  & Plugins -->
 <script src="{{ url('admin_assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{ url('admin_assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
@@ -108,21 +109,18 @@
 <script src="{{ url('admin_assets/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
 
 <script>
-  $(function () {
+  $(document).ready(function () {
     $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "responsive": true, "lengthChange": true, "autoWidth": true,
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      // "paging": true,
-      // "lengthChange": true,
-      // "searching": true,
-      // "ordering": true,
-      // "info": true,
-      // "autoWidth": false,
-      // "responsive": true,
-    });
+    // .buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)')
+    $("#categoryTable").DataTable({
+      "responsive": true, "lengthChange": true, "autoWidth": true,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#categoryTable .col-md-6:eq(0)');
   });
+
 </script>
 </body>
 </html>

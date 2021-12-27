@@ -1,14 +1,16 @@
-$().ready(function() {
+$().ready(function () {
 
     /** check current password at file name admin_setting in view/admin/ */
-    $('#chkcurrpwd').keyup(function() {
+    $('#chkcurrpwd').keyup(function () {
         let chkcurrpwd = $('#chkcurrpwd').val();
         //window.alert(chkcurrpwd);
         $.ajax({
             method: 'post',
             url: '/admin/check-current-password',
-            data: { chkcurrpwd: chkcurrpwd },
-            success: function(response) {
+            data: {
+                chkcurrpwd: chkcurrpwd
+            },
+            success: function (response) {
                 if (response == "false") {
                     $('#chkcurrentpwd').html('<span class="text-danger">Current Password is mis-matched</span>');
                 } else {
@@ -18,7 +20,7 @@ $().ready(function() {
         });
     });
     // Section Update Status Code
-    $('.updateSectionStatus').click(function(e) {
+    $('.updateSectionStatus').click(function (e) {
         event.preventDefault(e);
         let status = $(this).text();
         let section_id = $(this).attr('section_id');
@@ -28,8 +30,11 @@ $().ready(function() {
         $.ajax({
             method: 'post',
             url: '/admin/update-section-status',
-            data: { status: status, section_id: section_id },
-            success: function(result) {
+            data: {
+                status: status,
+                section_id: section_id
+            },
+            success: function (result) {
                 if (result['status'] == 1) {
                     $('#section-' + section_id).html('<a href="javascript:void(0)" class="updateSectionStatus"><span class="badge rounded-pill bg-info">Active</span></a>');
                 } else {
@@ -40,15 +45,18 @@ $().ready(function() {
     });
 
     // User Block and UnBlock Update Status Code
-    $('.updateUserStatus').click(function() {
+    $('.updateUserStatus').click(function () {
         let status = $(this).text();
         let user_id = $(this).attr('user_id');
         //window.alert(status + " " + user_id);
         $.ajax({
             method: 'post',
             url: '/admin/update-user-status',
-            data: { status: status, user_id: user_id },
-            success: function(result) {
+            data: {
+                status: status,
+                user_id: user_id
+            },
+            success: function (result) {
                 if (result['status'] == 1) {
                     $('#user-' + user_id).html('<a href="javascript:void(0)" class="updateUserStatus"><span class="badge rounded-pill bg-info text-dark">UnBlock</span></a>');
                 } else {
@@ -60,7 +68,7 @@ $().ready(function() {
 
     // Category Status Active and Inactive
 
-    $('.updateCategoryStatus').click(function() {
+    $('.updateCategoryStatus').click(function () {
 
         let status = $(this).text();
         let category_id = $(this).attr('category_id');
@@ -69,8 +77,11 @@ $().ready(function() {
         $.ajax({
             method: 'post',
             url: '/admin/update-category-status',
-            data: { status: status, category_id: category_id },
-            success: function(result) {
+            data: {
+                status: status,
+                category_id: category_id
+            },
+            success: function (result) {
                 if (result['status'] == 1) {
                     $('#category-' + category_id).html('<a href="javascript:void(0)" class="updateCategoryStatus"><span class="badge rounded-pill bg-info">Active</span></a>');
                 } else {
@@ -81,16 +92,50 @@ $().ready(function() {
     });
 
     // section change then related categories will be pop-up
-    $('#getSection_id').change(function() {
+    $('#getSection_id').change(function () {
         let section_id = $(this).val();
-       // alert(section_id);
-         $.ajax({
-             method: 'post',
-             url: '/admin/change-section-category-appear',
-             data: {section_id:section_id},
-             success: function(response) {
-                 $('#appendCategoryLevel').html(response);
-             }
-         });
+        // alert(section_id);
+        $.ajax({
+            method: 'post',
+            url: '/admin/change-section-category-appear',
+            data: {
+                section_id: section_id
+            },
+            success: function (response) {
+                $('#appendCategoryLevel').html(response);
+            }
+        });
+    });
+
+    // confirm delete category.
+    // $('.confirmDelete').click(function () {
+    //     let record = $(this).attr('record');
+    //     let recordid = $(this).attr('recordid');
+    //     // if(confirm("Are you sure want to delete this " + attributeName + " field?.")){
+    //     //     return true;
+    //     // }else{
+    //     //     return false;
+    //     // };
+    // });
+
+    $('.confirmDelete').click(function (e) {
+        event.preventDefault(e);
+        let record = $(this).attr('record');
+        let recordid = $(this).attr('recordid');
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+            
+                 window.location.href = "/admin/delete-"+record+"/"+recordid; 
+            }
+        })
     });
 });

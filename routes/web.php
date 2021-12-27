@@ -53,6 +53,8 @@ Route::prefix('admin')->namespace('Admin')->group(function() {
     //  Route::get('create-categories', 'CategoryController@create')->name('category.add');
     //  Route::post('categories/store', 'CategoryController@store')->name('category.store');
     Route::match(['get','post'], 'add-edit-category/{id?}', 'CategoryController@addEditCategory')->name('category.add');
+    Route::get('delete-category-image/{id}', 'CategoryController@deleteCategoryImage');
+    Route::get('delete-category/{id}', 'CategoryController@deleteCategory');
  });
 });
 

@@ -32,6 +32,13 @@
             </ul>
         </div>
         @endif
+        @if (Session::has('success_msg'))
+        <div class="alert alert-success alert-dismissible mt-1">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h5><i class="icon fas fa-check"></i> Alert!</h5>
+            {{ Session::get('success_msg')}}
+          </div>
+        @endif
         <!-- SELECT2 EXAMPLE -->
         <div class="card card-default">
           <!-- /.card-header -->
@@ -90,6 +97,13 @@
                       <span class="input-group-text">Upload</span>
                     </div>
                   </div>
+                  @if (!empty($editCategory['category_image']))
+                  <div style="width: 100" class="mt-3">
+                    <img src="{{ asset('img/adm_img/admin_category/'. $editCategory['category_image']) }}" width="50">
+                    <a class="confirmDelete" record="category-image" recordid="{{$editCategory['id']}}" href="javascript:void(0){{-- url('admin/delete-category-image', $editCategory['id']) --}}">Delete Image</a>
+                  </div>
+                      
+                  @endif
                 </div>
                 
                 <!-- /.form-group -->
