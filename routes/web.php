@@ -55,6 +55,14 @@ Route::prefix('admin')->namespace('Admin')->group(function() {
     Route::match(['get','post'], 'add-edit-category/{id?}', 'CategoryController@addEditCategory')->name('category.add');
     Route::get('delete-category-image/{id}', 'CategoryController@deleteCategoryImage');
     Route::get('delete-category/{id}', 'CategoryController@deleteCategory');
+
+    // Products Routes
+    Route::get('products', 'ProductController@index')->name('product.lists');
+    Route::post('update-product-status', 'ProductController@updateProductStatus');
+    Route::post('change-section-product-appear', 'ProductController@sectionProductCategory');
+    Route::match(['get', 'post'],'add-edit-product/{id?}', 'ProductController@addEditProduct')->name('product.addEdit');
+    Route::get('delete-product-image/{id}', 'ProductController@deleteProductImage');
+    Route::get('delete-product/{id}', 'ProductController@deleteProduct');
  });
 });
 

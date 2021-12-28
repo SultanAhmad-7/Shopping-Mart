@@ -94,8 +94,12 @@
                       <!-- hidden will help, if admin not updated image, then old one will be inserted -->
                       <input type="file" name="adm_img" class="form-control" id="adm_img">
                       @if(!empty(Auth::guard('admin')->user()->image))
-                      <a href="{{ url('img/adm_img/admin_photos/'.Auth::guard('admin')->user()->image) }}">View
-                          Image</a>
+                      {{-- <a href="{{ url('img/adm_img/admin_photos/'.Auth::guard('admin')->user()->image) }}">View
+                          Image</a> --}}
+                          <div class="mt-3">
+                            <img src="{{ url('img/adm_img/admin_photos/'.Auth::guard('admin')->user()->image) }}" width="150px" height="100px">
+                          </div>
+                      
                       <input type="hidden" name="current_admin_image"
                           value="{{ Auth::guard('admin')->user()->image}}">
                       @endif

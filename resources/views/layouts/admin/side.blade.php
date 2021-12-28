@@ -1,7 +1,10 @@
-<?php
-$uri = Request::segment(2);
+@php
+ 
+  $uri = Request::segment(2); 
+ 
+@endphp
 
-?>
+
 <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -27,23 +30,14 @@ $uri = Request::segment(2);
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Dashboard
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="./index.html" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v1</p>
-                </a>
+                <a href="{{ route('admin.dashboard') }}" class="nav-link {{ $uri == 'dashboard' ? "active" : ""}}">
+                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <p>
+                    Dashboard
+                  </p>
+                 </a>
               </li>
-            </ul>
-          </li>
           {{-- setting links --}}
           @php $settingModuleArray = ['settings', 'update-admin-detail','update-admin-password']; @endphp
           <li class="nav-item {{in_array($uri, $settingModuleArray) ? "menu-open" : ""}} menu-open">
@@ -81,53 +75,70 @@ $uri = Request::segment(2);
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('user.list') }}" class="nav-link {{ in_array($uri, ["users", "edit_user"]) ? "active" : ""}}">
+                <a href="{{ route('user.list') }}" class="nav-link {{ in_array($uri, ["users", "add_user","edit_user"]) ? "active" : ""}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>All Users</p>
                 </a>
               </li>
-              <li class="nav-item">
+              {{-- <li class="nav-item">
                 <a href="{{ route('user.list') }}" class="nav-link {{$uri == "add_user" ? "active" : ""}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Add User</p>
                 </a>
-              </li>
+              </li> --}}
             </ul>
           </li>
 
           {{-- Section  links Defined Here --}}
           @php 
-          $sectionModuleArray = ['sections', 'section.index','create-section'];
+          $sectionModuleArray = [
+                                  'sections', 'section.index','create-section',
+                                  'categories', 'category.lists','add-edit-category',
+                                  'products'];
           @endphp
           <li class="nav-item {{ in_array( $uri, $sectionModuleArray) ? "menu-open" : ""}}">
             <a href="#" class="nav-link {{ in_array( $uri, $sectionModuleArray) ? "active" : ""}}" >
               <i class="nav-icon fas fa-copy"></i>
               <p>
-                Sections
+                Catalogues
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('section.index') }}" class="nav-link {{ in_array($uri, ["sections"]) ? "active" : ""}}">
+                <a href="{{ route('section.index') }}" class="nav-link {{ in_array($uri, ["sections","create-section"]) ? "active" : ""}}">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>All Sections</p>
+                  <p>Section List</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{ route('category.lists') }}" class="nav-link {{ in_array($uri, ["categories","add-edit-category"]) ? "active" : ""}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Category List</p>
                 </a>
               </li>
               <li class="nav-item">
+                <a href="{{route('product.lists')}}" class="nav-link {{ in_array($uri, ["products","add-edit-product"]) ? "active" : ""}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Product List</p>
+                </a>
+              </li>
+              
+              {{-- <li class="nav-item">
                 <a href="{{ route('section.add') }}" class="nav-link {{$uri == "create-section" ? "active" : ""}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Add Section</p>
                 </a>
-              </li>
+              </li> --}}
             </ul>
           </li>
 
            {{-- Category  links Defined Here --}}
            @php 
-           $categoryModuleArray = ['categories', 'category.lists','create-categories'];
+           $categoryModuleArray = ['categories', 'category.lists','add-edit-category'];
            @endphp
-           <li class="nav-item {{ in_array( $uri, $categoryModuleArray) ? "menu-open" : ""}}">
+           {{-- <li class="nav-item {{ in_array( $uri, $categoryModuleArray) ? "menu-open" : ""}}">
              <a href="#" class="nav-link {{ in_array( $uri, $categoryModuleArray) ? "active" : ""}}" >
                <i class="nav-icon fas fa-copy"></i>
                <p>
@@ -137,19 +148,19 @@ $uri = Request::segment(2);
              </a>
              <ul class="nav nav-treeview">
                <li class="nav-item">
-                 <a href="{{ route('category.lists') }}" class="nav-link {{ in_array($uri, ["categories"]) ? "active" : ""}}">
+                 <a href="{{ route('category.lists') }}" class="nav-link {{ in_array($uri, ["categories","add-edit-category"]) ? "active" : ""}}">
                    <i class="far fa-circle nav-icon"></i>
-                   <p>All Categories</p>
+                   <p>Category List</p>
                  </a>
                </li>
                <li class="nav-item">
-                <a href="{{ route('category.add') }}" class="nav-link {{ $uri == "create-categories"  ? "active" : ""}}">
+                <a href="{{ route('category.add') }}" class="nav-link {{ $uri == "add-edit-category"  ? "active" : ""}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Add Category</p>
                 </a>
               </li>
              </ul>
-           </li>
+           </li> --}}
           
 
         </ul>

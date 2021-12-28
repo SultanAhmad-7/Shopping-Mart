@@ -114,13 +114,20 @@
       "responsive": true, "lengthChange": true, "autoWidth": true,
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    // .buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)')
+    
     $("#categoryTable").DataTable({
       "responsive": true, "lengthChange": true, "autoWidth": true,
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#categoryTable .col-md-6:eq(0)');
+    }).buttons().container().appendTo('#categoryTable_wrapper .col-md-6:eq(0)');
+    
+  $("#productTable").DataTable({
+      "responsive": true, "lengthChange": true, "autoWidth": true,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#productTable_wrapper .col-md-6:eq(0)');
   });
 
+  
+  
 </script>
 </body>
 </html>

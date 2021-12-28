@@ -97,6 +97,8 @@ class CategoryController extends Controller
                     Image::make($image_tmp)->resize('400', '400')->save($imagePath);
                     $category->category_image = $imageName;
                 } 
+            }else{
+                $category->category_image = '';
             }
            
            if(empty($data['category_discount']))
@@ -125,7 +127,7 @@ class CategoryController extends Controller
           $category->parent_id = $data['parent_id'];
           $category->section_id = $data['section_id'];
           $category->category_name = $data['category_name'];
-         // $category->category_image = $data[''];
+        // $category->category_image = '';
           $category->category_discount = $data['category_discount'];
           $category->description = $data['description'];
           $category->url = $data['url'];
@@ -162,14 +164,7 @@ class CategoryController extends Controller
      */
     public function deleteCategoryImage($id)
     {
-        $getCategoryImage = Category::select('category_image')->where('id', $id)->first();
-
-        $categoryImagePath = 'img/adm_img/admin_category/';
-
-        if(file_exists($categoryImagePath.$getCategoryImage->category_image)) 
-        {
-                unlink($categoryImagePath.$getCategoryImage->category_image);
-        }
+        $this->deleteCategoryImageFromDirector($id);
 
         Category::where('id', $id)->update(['category_image' => '']);
 
@@ -183,20 +178,28 @@ class CategoryController extends Controller
 
      public function deleteCategory($id)
      {
+         //$this->deleteCategoryImageFromDirector($id);
          //$categoryDelete = Category::where('id', $id)->delete();
-         $getCategoryImage = Category::select('category_image')->where('id', $id)->first();
-
-         $categoryImagePath = 'img/adm_img/admin_category/';
- 
-         if(file_exists($categoryImagePath.$getCategoryImage->category_image)) 
-         {
-                 unlink($categoryImagePath.$getCategoryImage->category_image);
-         }
+        
         //  if(isset($categoryDelete)) {
         //     Category::where('parent_id')->first()->delete();
         //  }
         Category::where('id', $id)->delete();
-         Session::flash('success_msg', 'Category Delete Successfully.');
+         Session::flash('success_msg', 'Category Deleted Successfully.');
          return redirect()->back();
+     }
+
+     public function deleteCategoryImageFromDirector($id)
+     {
+        $getCategoryImage = Category::select('category_image')->where('id', $id)->first();
+
+        $categoryImagePath = 'img/adm_img/admin_category/';
+        if(!empty($getCategoryImage) || $getCategoryImage != '') {
+            
+            if(file_exists($categoryImagePath.$getCategoryImage->category_image))
+            {
+                    unlink($categoryImagePath.$getCategoryImage->category_image);
+            }
+        }
      }
 }
