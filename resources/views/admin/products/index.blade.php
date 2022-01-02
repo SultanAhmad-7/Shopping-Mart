@@ -88,8 +88,10 @@
             </tbody>
             <tfoot>
               <tr>
-                <th>#</th>
+               <th>#</th>
                 <th>Product Name</th>
+                 <th>Category</th>
+                <th>Section</th>
                 <th>Product Code</th>
                 <th>Product Color</th>
                 <th>Product Discount</th>
