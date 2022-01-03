@@ -81,6 +81,7 @@ class CategoryController extends Controller
                 'category_name.required' => 'Name is Required.',
                 'category_name.regex'    => 'Valid Name is Required.',
                 'section_id.required'    => 'Section is Required.',
+                
                 'category_image.image'   => 'Valid Image is Required.'
             ];
             $this->validate($request, $rules, $msgCustomization);
@@ -95,10 +96,10 @@ class CategoryController extends Controller
                     $imagePath = 'img/adm_img/admin_category/' . $imageName;
                     // Upload the image
                     Image::make($image_tmp)->resize('400', '400')->save($imagePath);
-                    $category->category_image = $imageName;
+                    
+                        $category->category_image = $imageName;
+                    
                 } 
-            }else{
-                $category->category_image = '';
             }
            
            if(empty($data['category_discount']))

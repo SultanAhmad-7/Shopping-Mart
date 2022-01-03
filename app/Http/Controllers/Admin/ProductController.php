@@ -84,7 +84,9 @@ class ProductController extends Controller
                 'product_code' => 'required|alpha_num',
                 'product_price' => 'required|numeric',
                 'product_color' => 'required|alpha',
-                'product_weight' => 'required|numeric'
+                'product_weight' => 'required|numeric',
+                'main_image' => 'image',
+
                 
 
             ];
@@ -100,7 +102,8 @@ class ProductController extends Controller
                 'product_color.alpha' => 'Product color must has alphabatic letters.',
                 'product_weight.required' => 'Product weight field should be filled.',
                 'product_weight.numeric' => 'Product weight should be contain numeric characters.',
-                'description.required' => 'Product Description field should be filled.'
+                'description.required' => 'Product Description field should be filled.',
+                'main_image.image' => 'Valid Product Image is required.'
             ];
             $this->validate($request, $rules, $messages);
                 // Image Upload after resize.
@@ -118,8 +121,6 @@ class ProductController extends Controller
                     Image::make($tmp_image)->resize(260,300)->save($imagePathS);
                     $product->main_image = $imageName;
                 }
-            }else{
-                $product->main_image = '';
             }
                 // Video Upload
             if($request->hasFile('product_video')){
@@ -134,8 +135,6 @@ class ProductController extends Controller
                     $product->product_video = $videoName;
                 }
 
-            }else {
-                $product->product_video = '';
             }
                 if(empty($data['is_featured'])) 
                 {

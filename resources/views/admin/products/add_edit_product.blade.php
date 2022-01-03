@@ -192,7 +192,9 @@
                     <div class="input-group-append">
                       <span class="input-group-text">Upload</span>
                     </div>
+                    
                   </div>
+                  <p>Image must has width = 1040 and height = 1200</p>
                   @if (!empty($productData['main_image']))
                   <div style="width: 100" class="mt-3">
                     <img src="{{ asset('img/adm_img/admin_product/small/'. $productData['main_image']) }}" width="50">
