@@ -63,6 +63,11 @@ class ProductController extends Controller
             $message = "Product added successfully.";
         } else{
             $title = "Update Product";
+            $productData = Product::findOrFail($id);
+            $productData = json_decode(json_encode($productData), true);
+            $product = Product::findOrFail($id);
+            // echo "<pre>";
+            // print_r($productData); die();
             $message = "Product updated successfully.";
         }
 
@@ -98,7 +103,40 @@ class ProductController extends Controller
                 'description.required' => 'Product Description field should be filled.'
             ];
             $this->validate($request, $rules, $messages);
+                // Image Upload after resize.
+            if($request->hasFile('main_image')){
+                $tmp_image = $request->file('main_image');
+                if($tmp_image->isValid()){
+                    $mainImageName = $tmp_image->getClientOriginalName();
+                    $mainImageExt = $tmp_image->getClientOriginalExtension();
+                    $imageName = $mainImageName.'-'.rand(111,9999).'.'.$mainImageExt;
+                    $imagePathL = 'img/adm_img/admin_product/large/' . $imageName;
+                    $imagePathM = 'img/adm_img/admin_product/medium/' . $imageName;
+                    $imagePathS = 'img/adm_img/admin_product/small/' . $imageName;
+                    Image::make($tmp_image)->save($imagePathL); // 1040 x 1200
+                    Image::make($tmp_image)->resize(520,600)->save($imagePathM);
+                    Image::make($tmp_image)->resize(260,300)->save($imagePathS);
+                    $product->main_image = $imageName;
+                }
+            }else{
+                $product->main_image = '';
+            }
+                // Video Upload
+            if($request->hasFile('product_video')){
+                $tmperory_video = $request->file('product_video');
+                if($tmperory_video->isValid())
+                {
+                    $name = $tmperory_video->getClientOriginalName();
+                    $extenion = $tmperory_video->getClientOriginalExtension();
+                    $videoName = $name.'-'.rand(111,999).'.'.$extenion;
+                    $videoPath = public_path().'/videos/product_video/';
+                    $tmperory_video->move($videoPath, $videoName);
+                    $product->product_video = $videoName;
+                }
 
+            }else {
+                $product->product_video = '';
+            }
                 if(empty($data['is_featured'])) 
                 {
                     $is_featured = 'No';
@@ -153,8 +191,8 @@ class ProductController extends Controller
             $product->product_price = $data['product_price'];
             $product->product_discount = $data['product_discount'];
             $product->product_weight = $data['product_weight'];
-            $product->product_video = "";//$data['product_video'];
-           $product->main_image = "";//$data['main_image'];
+           // $product->product_video = "";//$data['product_video'];
+          // $product->main_image = "";//$data['main_image'];
             $product->description = $data['description'];
             $product->wash_care = $data['wash_care'];
             $product->fabric = $data['fabric'];
@@ -193,9 +231,77 @@ class ProductController extends Controller
                               'patternArray',
                               'fitArray',
                             'occasionArray',
-                                        'categories'
+                                        'categories',
+                                        'productData'
                                         ));
     }
+
+    /**
+     *  Now deleting the category image
+     */
+    public function deleteProductImage($id)
+    {
+        $this->deleteProductImageFromDirector($id);
+
+        Product::where('id', $id)->update(['main_image' => '']);
+
+        Session::flash('success_msg', "Product Image Deleted Successfully.");
+        return redirect()->back();
+    }
+
+    public function deleteProductImageFromDirector($id)
+     {
+        $getProductImage = Product::select('main_image')->where('id', $id)->first();
+
+        $imagePathL = 'img/adm_img/admin_product/large/' ;
+        $imagePathM = 'img/adm_img/admin_product/medium/';
+        $imagePathS = 'img/adm_img/admin_product/small/' ;
+        if(!empty($getProductImage) || $getProductImage != '') {
+            
+            if(file_exists($imagePathL.$getProductImage->main_image))
+            {
+                    unlink($imagePathL.$getProductImage->main_image);
+            }
+              
+            if(file_exists($imagePathM.$getProductImage->main_image))
+            {
+                    unlink($imagePathM.$getProductImage->main_image);
+            }
+              
+            if(file_exists($imagePathS.$getProductImage->main_image))
+            {
+                    unlink($imagePathS.$getProductImage->main_image);
+            }
+        }
+     }
+
+      /**
+     *  Now deleting the Product Video
+     */
+    public function deleteProductVideo($id)
+    {
+        $this->deleteProductVideoFromDirector($id);
+
+        Product::where('id', $id)->update(['product_video' => '']);
+
+        Session::flash('success_msg', "Product Video Deleted Successfully.");
+        return redirect()->back();
+    }
+    public function deleteProductVideoFromDirector($id)
+    {
+       $getProductVideo = Product::select('product_video')->where('id', $id)->first();
+
+       $imagePathL = 'videos/product_video/' ;
+       if(!empty($getProductVideo) || $getProductVideo != '') {
+           
+           if(file_exists($imagePathL.$getProductVideo->product_video))
+           {
+                   unlink($imagePathL.$getProductVideo->product_video);
+           }
+
+       }
+    }
+
     
     /**
      * Delete category

@@ -45,7 +45,8 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-6">
-              <form id="productForm" name="productForm" action="{{ url('admin/add-edit-product') }}" method="post" enctype="multipart/form-data">
+              <form id="productForm" name="productForm"  action="{{ !empty($productData['id']) ? url('admin/add-edit-product', $productData['id']) : url('admin/add-edit-product') }}"
+               method="post" enctype="multipart/form-data">
                 @csrf
                   {{-- category dropDown --}}
                  <div class="form-group">
@@ -56,11 +57,15 @@
                         <optgroup label="{{ $section['name']}}"></optgroup>
                         @foreach ($section['categories'] as $category)
                             <option value="{{ $category['id'] }}" @if (!empty(@old('category_id')) && $category['id'] == @old('category_id'))
+                                selected="" 
+                                @elseif(!empty($productData['category_id']) && $productData['category_id'] == $category['id'])
                                 selected=""
                             @endif>&nbsp;&nbsp;&nbsp;--&nbsp;&nbsp;{{ $category['category_name']}}</option>
                             @foreach ($category['sub_categories'] as $subCategory)
                                 <option value="{{ $subCategory['id'] }}" @if (!empty(@old('category_id')) && $subCategory['id'] == @old('category_id'))
-                                    selected = ""
+                                    selected=""
+                                    @elseif(!empty($productData['category_id']) && $productData['category_id'] == $subCategory['id'])
+                                    selected=""
                                 @endif>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&nbsp;{{ $subCategory['category_name']}}</option>
                             @endforeach
                         @endforeach
@@ -70,7 +75,7 @@
                 {{-- Product name --}}
                 <div class="form-group">
                   <label for="productName">Product Name</label>
-                  <input type="text" name="product_name" id="" value="{{ !empty($productDatat['product_name']) ? $productDatat['product_name'] : old('product_name') }}" class="form-control" placeholder="Enter The product Name">
+                  <input type="text" name="product_name" id="" value="{{ !empty($productData['product_name']) ? $productData['product_name'] : old('product_name') }}" class="form-control" placeholder="Enter The product Name">
                 </div>
                 
                 <div class="form-group">
@@ -94,6 +99,21 @@
                     <span class="input-group-text">Upload</span>
                   </div>
                 </div>
+                @if (!empty($productData['product_video']))
+                  <div style="width: 100" class="mt-3">
+
+                    <video width="320" height="240" controls>
+                      <source src="{{ asset('videos/product_video/'. $productData['product_video']) }}" type="video/mp4">
+                      <source src="{{ asset('videos/product_video/'. $productData['product_video']) }}" type="video/ogg">
+                      Your browser does not support the video tag.
+                    </video>
+                    {{-- <a href="{{ url('videos/product_video/'. $productData['product_video']) }}" download="">Download</a>| --}}
+                    {{-- <video src="{{ asset('videos/product_video/'. $productData['product_video']) }}" type="video/mp4" width="100%" height="100%" autoplay></video> --}}
+                    {{-- <img src="{{ asset('videos/product_video/'. $productData['product_video']) }}" width="50" download> --}}
+                    <a class="confirmDelete" record="product-video" recordid="{{$productData['id']}}" href="javascript:void(0)">Delete Video</a>
+                  </div>
+                      
+                  @endif
               </div>
               
               {{-- product Description --}}
@@ -108,7 +128,9 @@
                   <select name="fabric" id="fabric" class="form-control" style="width: 100%;">
                     <option value="">-- Select Fabric --</option>
                     @foreach ($fabricArray as $fabric)
-                        <option value="{{ $fabric }}">{{ $fabric }}</option>
+                        <option value="{{ $fabric }}" @if (!empty($productData['fabric']) && $productData['fabric'] == $fabric)
+                            selected=""
+                        @endif>{{ $fabric }}</option>
                     @endforeach
                   </select>
                 </div>
@@ -118,7 +140,9 @@
                     <select name="sleeve" id="sleeve" class="form-control" style="width: 100%;">
                       <option value="">-- Select Sleeve --</option>
                         @foreach ($sleeveArray as $sleeve)
-                          <option value="{{ $sleeve }}">{{ $sleeve }}</option>
+                          <option value="{{ $sleeve }}" @if (!empty($productData['sleeve']) && $productData['sleeve'] == $sleeve)
+                              selected=""
+                          @endif>{{ $sleeve }}</option>
                         @endforeach
                     </select>
                   </div>
@@ -169,6 +193,13 @@
                       <span class="input-group-text">Upload</span>
                     </div>
                   </div>
+                  @if (!empty($productData['main_image']))
+                  <div style="width: 100" class="mt-3">
+                    <img src="{{ asset('img/adm_img/admin_product/small/'. $productData['main_image']) }}" width="50">
+                    <a class="confirmDelete" record="product-image" recordid="{{$productData['id']}}" href="javascript:void(0){{-- url('admin/delete-category-image', $editCategory['id']) --}}">Delete Image</a>
+                  </div>
+                      
+                  @endif
                 </div>
                 <!-- /.form-group -->
                   {{-- Wash Care --}}
@@ -183,7 +214,10 @@
                       <select name="pattern" id="pattern_id" class="form-control" style="width: 100%;">
                         <option value="">-- Select Pattern --</option>
                           @foreach ($patternArray as $pattern)
-                              <option value="{{ $pattern }}">{{ $pattern }}</option>
+                            
+                              <option value="{{ $pattern }}" @if (!empty($productData['pattern']) && $productData['pattern'] == $pattern)
+                                selected=""
+                              @endif>{{ $pattern }}</option>
                           @endforeach
                       </select>
                     </div>
@@ -193,7 +227,9 @@
                       <select name="fit" id="fit_id" class="form-control" style="width: 100%;">
                         <option value="">-- Select Fit --</option>
                           @foreach ($fitArray as $fit)
-                            <option value="{{ $fit }}">{{ $fit }}</option>
+                            <option value="{{ $fit }}" @if (!empty($productData['fit']) && $productData['fit'] == $fit)
+                                selected=""
+                            @endif>{{ $fit }}</option>
                           @endforeach
                       </select>
                     </div>
@@ -203,7 +239,9 @@
                       <select name="occasion" id="occasion_id" class="form-control" style="width: 100%;">
                         <option value="">-- Select Occasion --</option>
                           @foreach ($occasionArray as $occasion)
-                              <option value="{{ $occasion }}">{{ $occasion }}</option>
+                              <option value="{{ $occasion }}" @if (!empty($productData['occasion']) && $productData['occasion'] == $occasion)
+                              selected=""
+                          @endif>{{ $occasion }}</option>
                           @endforeach
                       </select>
                     </div>
@@ -228,7 +266,9 @@
             <!-- /.row -->
               <div class="form-group">
                 <div class="form-check">
-                <input type="checkbox" class="form-check-input" name="is_featured" id="is_featured" class="form-control" value="Yes">
+                <input type="checkbox" class="form-check-input" name="is_featured" id="is_featured" class="form-control" value="Yes" @if (!empty($productData['is_featured']) && $productData['is_featured'] == 'Yes')
+                    checked=""
+                @endif>
                 <label class="form-check-label" for="is_featured">Either Product has features or not.</label>
                 </div>
               </div>

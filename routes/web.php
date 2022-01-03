@@ -62,6 +62,7 @@ Route::prefix('admin')->namespace('Admin')->group(function() {
     Route::post('change-section-product-appear', 'ProductController@sectionProductCategory');
     Route::match(['get', 'post'],'add-edit-product/{id?}', 'ProductController@addEditProduct')->name('product.addEdit');
     Route::get('delete-product-image/{id}', 'ProductController@deleteProductImage');
+    Route::get('delete-product-video/{id}', 'ProductController@deleteProductVideo');
     Route::get('delete-product/{id}', 'ProductController@deleteProduct');
  });
 });

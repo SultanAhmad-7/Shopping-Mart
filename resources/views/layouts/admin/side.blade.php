@@ -94,7 +94,7 @@
           $sectionModuleArray = [
                                   'sections', 'section.index','create-section',
                                   'categories', 'category.lists','add-edit-category',
-                                  'products'];
+                                  'products', 'product.lists','add-edit-product'];
           @endphp
           <li class="nav-item {{ in_array( $uri, $sectionModuleArray) ? "menu-open" : ""}}">
             <a href="#" class="nav-link {{ in_array( $uri, $sectionModuleArray) ? "active" : ""}}" >
