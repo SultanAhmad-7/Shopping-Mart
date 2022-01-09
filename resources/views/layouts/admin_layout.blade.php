@@ -60,6 +60,7 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="{{ url('admin_assets/plugins/jquery/jquery.min.js')}}"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ url('admin_assets/plugins/jquery-ui/jquery-ui.min.js')}}"></script>

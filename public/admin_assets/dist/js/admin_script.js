@@ -165,4 +165,33 @@ $(document).ready(function() {
         });
     });
 
+    // add remove field dynamically
+    var maxField = 10; //Input fields increment limitation
+    var addButton = $('.add_button'); //Add button selector
+    var wrapper = $('.field_wrapper'); //Input field wrapper
+    var fieldHTML = `<div style="margin-top: 4px; margin-left: 1px;">
+                        <input name="size[]" type="text" style="width: 120px;" value="" placeholder="Size" required=""/>&nbsp;
+                        <input  name="sku[]" type="text" name="sku[]" style="width: 120px;" value="" placeholder="SKU" required=""/>&nbsp;
+                        <input  name="stock[]" type="number" style="width: 120px;" value="" placeholder="Stock" required=""/>&nbsp;
+                        <input  name="price[]" type="number" style="width: 120px;" value="" placeholder="Price" required=""/>&nbsp;
+                        <a href="javascript:void(0);" class="remove_button"><i class="fas fa-minus-circle fa-x1"></i></a>
+                    </div>`; //New input field html 
+    var x = 1; //Initial field counter is 1
+
+    //Once add button is clicked
+    $(addButton).click(function() {
+        //Check maximum number of input fields
+        if (x < maxField) {
+            x++; //Increment field counter
+            $(wrapper).append(fieldHTML); //Add field html
+        }
+    });
+
+    //Once remove button is clicked
+    $(wrapper).on('click', '.remove_button', function(e) {
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove field html
+        x--; //Decrement field counter
+    });
+
 });

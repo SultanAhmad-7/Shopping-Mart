@@ -43,6 +43,7 @@
               <tr>
                 <th>#</th>
                 <th>Product Name</th>
+                <th>Main Image</th>
                  <th>Category</th>
                 <th>Section</th>
                 <th>Product Code</th>
@@ -60,6 +61,7 @@
                 <tr>
                   <td>{{ $i++ }}</td>
                   <td>{{ $product->product_name }}</td>
+                  <td><img src="{{ (empty($product->main_image)) ? url('img/adm_img/admin_product/small/no-image.png') : url('img/adm_img/admin_product/small/', $product->main_image) }}" width="80%" height="100%" style="background-color:black;"></td>
                   <td>{{ $product->category->category_name}}</td>
                    <td>{{ $product->section->name}}</td> 
                   <td>{{ $product->product_code }}</td>
@@ -79,7 +81,8 @@
                   </td>
                 @endif
                   <td> 
-                    <a href="{{ url('admin/add-edit-product',  $product->id ) }}" class="btn btn-info btn-sm">Edit</a> <a record="product" recordid="{{ $product->id }}" href="{{-- url('admin/delete-category', $category->id) --}}" class="btn btn-danger btn-sm confirmDelete">Delete</a></td>
+                    <a href="{{ url('admin/add-product-attributes',  $product->id ) }}"><i class="fas fa-plus fa-xs"></i></a>
+                    <a href="{{ url('admin/add-edit-product',  $product->id ) }}"><i class="fas fa-edit fa-xs"></i></a> <a record="product" recordid="{{ $product->id }}" href="{{-- url('admin/delete-category', $category->id) --}}" class="confirmDelete"><i class="fas fa-trash fa-xs"></i></a></td>
                 </tr>
               @empty
                  <td class="col col-lg-2"><span class="text-red text-center" style="padding-left: 50px">No Record Found</span></td>
@@ -90,6 +93,7 @@
               <tr>
                <th>#</th>
                 <th>Product Name</th>
+                <th>Main Image</th>
                  <th>Category</th>
                 <th>Section</th>
                 <th>Product Code</th>
