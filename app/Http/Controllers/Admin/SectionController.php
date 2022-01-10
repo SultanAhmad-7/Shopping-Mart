@@ -80,9 +80,17 @@ class SectionController extends Controller
      * @param  \App\Section  $section
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Section $section)
+    public function destroy(Section $section, $id)
     {
-        //
+            //$this->deleteCategoryImageFromDirector($id);
+            //$categoryDelete = Category::where('id', $id)->delete();
+           
+           //  if(isset($categoryDelete)) {
+           //     Category::where('parent_id')->first()->delete();
+           //  }
+           Section::where('id', $id)->delete();
+            return back()->with('success_msg', 'Section Deleted Successfully.');
+        
     }
 
     public function updateStatus(Request $request)

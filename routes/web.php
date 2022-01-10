@@ -29,27 +29,32 @@ Route::post('admin/login','Admin\LoginController@checkLoginCredentials')->name('
 // Admin Login Routes End
 Route::prefix('admin')->namespace('Admin')->group(function() {
  Route::group(['middleware' => ['admin']], function() {
-     // Admin Dashboard Route and Logout
-     Route::get('dashboard', 'LoginController@dashboard')->name('admin.dashboard');
-     Route::get('logout', 'LoginController@logout')->name('admin.logout');
-     // Admin Setting Up Routes.
-     Route::get('settings', 'AdminController@settings');
-     Route::post('check-current-password', 'AdminController@chkCurrentPwd');
-     Route::post('update-password', 'AdminController@updatePassword');
-     Route::match(['get','post'],'update-admin-detail','AdminController@adminDetail');
-     // Users Route
-     Route::get('users','UserController@index')->name('user.list');
-     Route::post('update-user-status', 'UserController@updateUserStatus');
-
-     // Sections Route
-     Route::get('sections','SectionController@index')->name('section.index');
-     Route::get('create-section', 'SectionController@create')->name('section.add');
-     Route::post('sections/store', 'SectionController@store')->name('section.store');
-     Route::post('update-section-status', 'SectionController@updateStatus');
-     // Categories Route
-     Route::get('categories', 'CategoryController@index')->name('category.lists');
-     Route::post('update-category-status', 'CategoryController@updateCategoryStatus');
-     Route::post('change-section-category-appear', 'CategoryController@sectionChangeCategory');
+    // Admin Dashboard Route and Logout
+    Route::get('dashboard', 'LoginController@dashboard')->name('admin.dashboard');
+    Route::get('logout', 'LoginController@logout')->name('admin.logout');
+    // Admin Setting Up Routes.
+    Route::get('settings', 'AdminController@settings');
+    Route::post('check-current-password', 'AdminController@chkCurrentPwd');
+    Route::post('update-password', 'AdminController@updatePassword');
+    Route::match(['get','post'],'update-admin-detail','AdminController@adminDetail');
+    // Users Route
+    Route::get('users','UserController@index')->name('user.list');
+    Route::post('update-user-status', 'UserController@updateUserStatus');
+    // Brands Route
+    Route::get('brands','BrandController@index')->name('brand.lists');
+    Route::match(['get', 'post'], 'add-edit-brand/{id?}', 'BrandController@addEditBrand'); 
+    Route::post('update-brand-status', 'BrandController@updateStatus');
+    Route::get('delete-brand/{id}', 'BrandController@destroy');
+    // Sections Route
+    Route::get('sections','SectionController@index')->name('section.index');
+    Route::get('create-section', 'SectionController@create')->name('section.add');
+    Route::post('sections/store', 'SectionController@store')->name('section.store');
+    Route::post('update-section-status', 'SectionController@updateStatus');
+    Route::get('delete-section/{id}', 'SectionController@destroy');
+    // Categories Route
+    Route::get('categories', 'CategoryController@index')->name('category.lists');
+    Route::post('update-category-status', 'CategoryController@updateCategoryStatus');
+    Route::post('change-section-category-appear', 'CategoryController@sectionChangeCategory');
     //  Route::get('create-categories', 'CategoryController@create')->name('category.add');
     //  Route::post('categories/store', 'CategoryController@store')->name('category.store');
     Route::match(['get','post'], 'add-edit-category/{id?}', 'CategoryController@addEditCategory')->name('category.add');

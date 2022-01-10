@@ -94,7 +94,10 @@
           $sectionModuleArray = [
                                   'sections', 'section.index','create-section',
                                   'categories', 'category.lists','add-edit-category',
-                                  'products', 'product.lists','add-edit-product','add-product-attributes','add-product-images'];
+                                  'products', 'product.lists','add-edit-product','add-product-attributes','add-product-images',
+                                  'brands'
+
+                                ];
           @endphp
           <li class="nav-item {{ in_array( $uri, $sectionModuleArray) ? "menu-open" : ""}}">
             <a href="#" class="nav-link {{ in_array( $uri, $sectionModuleArray) ? "active" : ""}}" >
@@ -105,6 +108,12 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('brand.lists') }}" class="nav-link {{ in_array($uri, ["brands"]) ? "active" : ""}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Brands List</p>
+                </a>
+              </li>
               <li class="nav-item">
                 <a href="{{ route('section.index') }}" class="nav-link {{ in_array($uri, ["sections","create-section"]) ? "active" : ""}}">
                   <i class="far fa-circle nav-icon"></i>

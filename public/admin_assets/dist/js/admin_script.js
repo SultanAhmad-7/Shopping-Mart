@@ -19,10 +19,38 @@ $(document).ready(function() {
             }
         });
     });
+    // Brand Update Status Code
+    $('.updateBrandStatus').click(function(e) {
+        event.preventDefault(e);
+        let status = $(this).children("i").attr("status");
+        // alert(status);
+        // return false;
+        let brand_id = $(this).attr('brand_id');
+
+        //window.alert(" status " + status + " section_id-" + section_id);
+
+        $.ajax({
+            method: 'post',
+            url: '/admin/update-brand-status',
+            data: {
+                status: status,
+                brand_id: brand_id
+            },
+            success: function(result) {
+                if (result['status'] == 1) {
+                    $('#brand-' + brand_id).html('<i class="fas fa-toggle-on fa-1x" aria-hidden="true" status="Active"></i>');
+                } else {
+                    $('#brand-' + brand_id).html('<i class="fas fa-toggle-off fa-1x" aria-hidden="true" status="Inactive"></i>');
+                }
+            }
+        });
+    });
     // Section Update Status Code
     $('.updateSectionStatus').click(function(e) {
         event.preventDefault(e);
-        let status = $(this).text();
+        let status = $(this).children("i").attr("status");
+        // alert(status);
+        // return false;
         let section_id = $(this).attr('section_id');
 
         //window.alert(" status " + status + " section_id-" + section_id);
@@ -36,9 +64,9 @@ $(document).ready(function() {
             },
             success: function(result) {
                 if (result['status'] == 1) {
-                    $('#section-' + section_id).html('<a href="javascript:void(0)" class="updateSectionStatus"><span class="badge rounded-pill bg-info">Active</span></a>');
+                    $('#section-' + section_id).html('<i class="fas fa-toggle-on fa-1x" aria-hidden="true" status="Active"></i>');
                 } else {
-                    $('#section-' + section_id).html('<a href="javascript:void(0)" class="updateSectionStatus"><span class="badge rounded-pill bg-danger">Inactive</span></a>');
+                    $('#section-' + section_id).html('<i class="fas fa-toggle-off fa-1x" aria-hidden="true" status="Inactive"></i>');
                 }
             }
         });

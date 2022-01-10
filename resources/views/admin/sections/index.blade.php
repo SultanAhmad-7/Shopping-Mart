@@ -23,6 +23,13 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
+       @if(session('success_msg'))
+        <div class="alert alert-success alert-dismissible mt-1">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          <h5><i class="icon fas fa-check"></i> Alert!</h5>
+          {{ session('success_msg') }}
+        </div>
+      @endif
         <div class="card">
             <div class="card-header">
               <h3 class="card-title">All Sections</h3>
@@ -34,23 +41,23 @@
                 <tr>
                   <th>#</th>
                   <th>Section Name</th>
-                  <th>Status</th>
                   <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                     @forelse ($sections as $section)
                     <tr>
-                        <td>{{ $section->id}}</td>
-                        <td>{{ $section->name }}</td>
-                        @if ($section->status == 1)
-                        <td> <a href="javascript:void(0)" id="section-{{$section->id}}" section_id="{{$section->id}}" class="updateSectionStatus"><span  class="badge rounded-pill bg-info text-dark text-sm">Active</span></a></td>
-                        @else
-                        <td> <a href="javascript:void(0)" id="section-{{$section->id}}" section_id="{{$section->id}}" class="updateSectionStatus"><span  class="badge rounded-pill bg-danger text-dark text-sm">Inactive</span></a></td>
-                        @endif
-
-                        <td> <a href="#" class="btn btn-danger btn-sm">Delete</a></td>
-                      </tr>
+                      <td>{{ $section->id}}</td>
+                      <td>{{ $section->name }}</td>
+                      <td>
+                       @if ($section->status == 1)
+                        <a href="javascript:void(0)" id="section-{{$section->id}}" section_id="{{$section->id}}" class="updateSectionStatus"><i class="fas fa-toggle-on fa-1x" aria-hidden="true" status="Active"></i></a>
+                       @else
+                          <a href="javascript:void(0)" id="section-{{$section->id}}" section_id="{{$section->id}}" class="updateSectionStatus"><i class="fas fa-toggle-off fa-1x" aria-hidden="true" status="Inactive"></i></a>
+                       @endif
+                       <a title="Delete Section" record="section" recordid="{{ $section->id }}" href="{{-- url('admin/delete-category', $category->id) --}}" class="confirmDelete"><i class="fas fa-trash fa-xs"></i></a>
+                      </td>
+                    </tr>
                     @empty
                     <p class="alert alert-warning">No Record Found</p>
                     @endforelse
@@ -60,7 +67,6 @@
                 <tr>
                     <th>#</th>
                     <th>Section Name</th>
-                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
                 </tfoot>
