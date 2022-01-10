@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use ProductImageSeeder;
 
 class Product extends Model
 {
@@ -28,6 +29,11 @@ class Product extends Model
     public function attributes()
     {
         return $this->hasMany(ProductAttribute::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
     }
 
     

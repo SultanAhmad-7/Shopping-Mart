@@ -48,7 +48,7 @@
                 {{ session('sku_exists_msg') }}
             </div>
             @endif
-            <form id="productAttributeForm" name="productAttributeForm" action="{{ url('admin/add-product-attributes/'.$productData['id'])}}" method="post">
+            <form id="addImageForm" name="addImageForm" action="{{ url('admin/add-product-images/'.$productData['id'])}}" method="post" enctype="multipart/form-data">
                 @csrf
                 {{-- <input type="hidden" name="product_id" value="{{ $productData['id'] }}"> --}}
                 <!-- SELECT2 EXAMPLE -->
@@ -57,8 +57,6 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-4">
-                            
-
                                     {{-- Product name --}}
                                     <div class="form-group">
                                         <label for="productName">Product Name:</label> &nbsp;
@@ -87,17 +85,11 @@
                         
                         <div class="col-md-8">
 
-                            <div class="form-group">
-                                <div class="field_wrapper">
-                                    <div>
-                                        <input id="size" name="size[]" type="text" style="width: 120px;" value="" placeholder="Size" required=""/>
-                                        <input id="sku" name="sku[]" type="text" name="sku[]" style="width: 120px;" value="" placeholder="SKU" required=""/>
-                                        <input id="stock" name="stock[]" type="number" name="stock[]" style="width: 120px;" value="" placeholder="Stock" required=""/>
-                                        <input id="price" name="price[]" type="number" name="price[]" style="width: 120px;" value="" placeholder="Price" required=""/>
-                                        <a href="javascript:void(0);" class="add_button" title="Add field"><i class="fas fa-plus-circle fa-x1"></i></a>
-                                    </div>
-                                </div>
+                            
+                          <div class="form-group">
+                            <input type="file" name="image[]" class="form-control" multiple>
                             </div>
+                        </div>
                         </div>
 
                     </div>
@@ -113,91 +105,83 @@
             </form>
        
 
-        {{-- Displaying the Product Attributes --}}
-      <form action="{{ url('admin/edit-product-attributes/'. $productData['id']) }}" method="post">
-        @csrf
-        
-        <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">Product Attributes</h3>
-            </div>
-            
-            <!-- /.card-header -->
-            <div class="card-body">
-              <table id="productTable" class="table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Size</th>
-                    <th>SKU</th>
-                     <th>Stock</th>
-                    <th>Price</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @php
-                    $i=1;
-                  @endphp
-                  @forelse($productData['attributes'] as $attributes)
-                  <input style="display: none;" type="text" name="attrId[]" value="{{ $attributes['id']}}">
-                    <tr>
-                      <td>{{ $i++ }}</td>
-                      <td>{{ $attributes['size'] }}</td>
-                      <td>{{ $attributes['sku'] }}</td>
-                      <td>
-                        <input type="number" name="stock[]" id="stock" value="{{ $attributes['stock'] }}" required="">
-                      </td>
-                      <td>
-                        <input type="number" name="price[]" id="price" value="{{ $attributes['price'] }}" required="">
-                      </td>
-                      <td>
-                      @if($attributes['status'] == 1)
-                    
-                         <a href="javascript:void(0)" id="attributes-{{ $attributes['id'] }}" attributes_id="{{ $attributes['id'] }}" class="updateAttributesStatus">
-                          <span >Active</span>
-                        </a>
-                   
-                    @else
-                      
-                        <a href="javascript:void(0)" id="attributes-{{ $attributes['id'] }}" attributes_id="{{ $attributes['id'] }}" class="updateAttributesStatus">
-                              <span >Inactive</span>
-                        </a>
-                     
-                    @endif
-                    <a record="attribute" recordid="{{ $attributes['id'] }}" href="{{-- url('admin/delete-category', $category->id) --}}" class="confirmDelete"><i class="fas fa-trash fa-xs"></i></a>
-                  </td>
-                      <td> 
-                        
-                    </td>
-                    </tr>
-                  @empty
-                     <td class="col col-lg-2"><span class="text-red text-center" style="padding-left: 50px">No Record Found</span></td>
-                  @endforelse
-    
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <th>#</th>
-                    <th>Size</th>
-                    <th>SKU</th>
-                     <th>Stock</th>
-                    <th>Price</th>
-                    <th>Actions</th>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-            <!-- /.card-body -->
-            <div class="card-footer">
-              <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-sm">Update Attributes</button>
+        {{-- Displaying the Product Images --}}
+        <form action="{{ url('admin/edit-product-image/'. $productData['id']) }}" method="post">
+          @csrf
+          
+          <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Product Attributes</h3>
               </div>
-            </div>
-        </div>
-      </form>
-        <!-- /.card-body -->
- </div>
+              
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="productTable" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Product ID</th>
+                      <th>Image</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @php
+                      $i=1;
+                    @endphp
+                    @forelse($productData['images'] as $image)
+                    <input style="display: none;" type="text" name="attrId[]" value="{{ $image['id']}}">
+                      <tr>
+                        <td>{{ $i++ }}</td>
+                        <td>{{ $image['product_id'] }}</td>
+                        <td>
+                          <img src="{{ url('img/adm_img/admin_product/small/'. $image['image']) }}" width="20%" height="30%">
+                        </td>
+                        <td>
+                        @if($image['status'] == 1)
+                      
+                           <a href="javascript:void(0)" id="image-{{ $image['id'] }}" image_id="{{ $image['id'] }}" class="updateImageStatus">
+                            <span >Active</span>
+                          </a>
+                     
+                      @else
+                        
+                          <a href="javascript:void(0)" id="image-{{ $image['id'] }}" image_id="{{ $image['id'] }}" class="updateImageStatus">
+                                <span >Inactive</span>
+                          </a>
+                       
+                      @endif
+                      <a record="image" recordid="{{ $image['id'] }}" href="{{-- url('admin/delete-category', $category->id) --}}" class="confirmDelete"><i class="fas fa-trash fa-xs"></i></a>
+                    </td>
+                        <td> 
+                          
+                      </td>
+                      </tr>
+                    @empty
+                       <td class="col col-lg-2"><span class="text-red text-center" style="padding-left: 50px">No Record Found</span></td>
+                    @endforelse
+      
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>#</th>
+                      <th>Product ID</th>
+                      <th>Image</th>
+                      <th>Actions</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+              <div class="card-footer">
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary btn-sm">Update Attributes</button>
+                </div>
+              </div>
+          </div>
+        </form>
+      </div>
+
 </div>
 <!-- /.card -->
 <!-- /.content -->

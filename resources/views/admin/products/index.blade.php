@@ -67,22 +67,25 @@
                   <td>{{ $product->product_code }}</td>
                   <td>{{ $product->product_color }}</td>
                   <td>{{ $product->product_discount }}</td>
-                  @if($product->status == 1)
                   <td>
+                  @if($product->status == 1)
+                  
                      <a href="javascript:void(0)" id="product-{{ $product->id }}" product_id="{{ $product->id }}" class="updateProductStatus">
                       <span class="badge rounded-pill bg-info text-dark text-sm">Active</span>
                     </a>
-                  </td>
+               
                 @else
-                  <td> 
+                  
                     <a href="javascript:void(0)" id="product-{{ $product->id }}" product_id="{{ $product->id }}" class="updateProductStatus">
                           <span class="badge rounded-pill bg-danger text-dark text-sm">Inactive</span>
                     </a>
-                  </td>
+                 
                 @endif
-                  <td> 
-                    <a href="{{ url('admin/add-product-attributes',  $product->id ) }}"><i class="fas fa-plus fa-xs"></i></a>
-                    <a href="{{ url('admin/add-edit-product',  $product->id ) }}"><i class="fas fa-edit fa-xs"></i></a> <a record="product" recordid="{{ $product->id }}" href="{{-- url('admin/delete-category', $category->id) --}}" class="confirmDelete"><i class="fas fa-trash fa-xs"></i></a></td>
+              </td>
+                  <td style="width: 120px;"> 
+                    <a title="Add Product Attributes" href="{{ url('admin/add-product-attributes/'.$product->id ) }}"><i class="fas fa-plus fa-xs"></i></a> <a title="Add Product Multiple Images" href="{{ url('admin/add-product-images/'.$product->id ) }}"><i class="fas fa-plus-circle fa-xs"></i></a>
+                    <a title="Edit Product" href="{{ url('admin/add-edit-product',  $product->id ) }}"><i class="fas fa-edit fa-xs"></i></a> <a title="Delete Product" record="product" recordid="{{ $product->id }}" href="{{-- url('admin/delete-category', $category->id) --}}" class="confirmDelete"><i class="fas fa-trash fa-xs"></i></a>
+                  </td>
                 </tr>
               @empty
                  <td class="col col-lg-2"><span class="text-red text-center" style="padding-left: 50px">No Record Found</span></td>

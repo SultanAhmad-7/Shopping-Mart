@@ -219,4 +219,28 @@ $(document).ready(function() {
             }
         });
     });
+
+    // Product Image updateStatus
+    $('.updateImageStatus').click(function() {
+
+        let status = $(this).text();
+        let image_id = $(this).attr('image_id');
+
+        // window.alert(" status " + status + " product_id-" + product_id);
+        $.ajax({
+            method: 'post',
+            url: '/admin/update-image-status',
+            data: {
+                status: status,
+                image_id: image_id
+            },
+            success: function(result) {
+                if (result['status'] == 1) {
+                    $('#image-' + image_id).html('Active');
+                } else {
+                    $('#image-' + image_id).html('Inactive');
+                }
+            }
+        });
+    });
 });

@@ -7,6 +7,7 @@ use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\ProductAttribute;
+use App\ProductImage;
 use App\Section;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Session;
@@ -438,5 +439,97 @@ class ProductController extends Controller
        ProductAttribute::where('id', $id)->delete();
         return back()->with('success_msg', 'Product Deleted Successfully.');
     }
+
+    // Add Product Images and display form.
+    public function addImages($id)
+    {   
+        if(request()->isMethod('POST'))
+        {
+            // $data = request()->all();
+            // echo "<pre>"; print_r($data); die();
+            if(request()->hasFile('image'))
+            {
+                    $images = request()->file('image');
+                    foreach ($images as $key => $image) {
+                        $productImage = new ProductImage;
+                        $image_tmp = Image::make($image);
+                        // get the original image extension
+                       $extenion = $image->getClientOriginalExtension(); 
+                      $imageName = rand(111, 9999). time(). ".". $extenion; 
+                       // echo $imageName . "<br>";
+                      // save image in different folders
+                      $imagePathL = 'img/adm_img/admin_product/large/'.$imageName;
+                      $imagePathM = 'img/adm_img/admin_product/medium/'.$imageName;
+                      $imagePathS = 'img/adm_img/admin_product/small/'.$imageName;
+                      $image_tmp->save($imagePathL); // 1040 x 1200
+                      $image_tmp->resize(520,600)->save($imagePathM);
+                      $image_tmp->resize(260,300)->save($imagePathS);
+                      $productImage->image = $imageName;
+                      $productImage->product_id = $id;
+                      $productImage->status = 1;
+                      $productImage->save();
+
+                    }
+
+                    // die();
+                    return back()->with('success_msg', 'Product Images Added Successfully.');
+                    
+            }
+        }
+        $title = "Product Multiple Images";
+        $productData = Product::with('images')->select('id','product_name','product_code','product_color','main_image')->where('id',$id)->first();
+        $productData = json_decode(json_encode($productData), true);
+        //echo "<pre>"; print_r($productData); die();
+        return view('admin.products.add-product-images')->with(compact('title', 'productData'));
+    }
+
+            /**
+     * @return status active or inactive
+     */
+    public function updateImageStatus(Request $request)
+    {
+        if($request->ajax()){
+            $data = $request->all();
+            if($data['status'] == 'Active'){
+                $status = 0;
+            }else{
+                $status = 1;
+            }
+            ProductImage::where('id', $data['image_id'])->update(['status' => $status]);
+            return response()->json(['status' => $status, 'image_id' => $data['image_id']]);
+        }
+    }
+
+    // Delet Product Images from Product Images table 
+    public function deleteImage($id)
+     {
+        $getProductImage = ProductImage::where('id', $id)->first();
+
+        $imagePathL = 'img/adm_img/admin_product/large/' ;
+        $imagePathM = 'img/adm_img/admin_product/medium/';
+        $imagePathS = 'img/adm_img/admin_product/small/' ;
+        if(!empty($getProductImage) || $getProductImage != '') 
+        {
+            
+            if(file_exists($imagePathL.$getProductImage->image))
+            {
+                    unlink($imagePathL.$getProductImage->image);
+            }
+              
+            if(file_exists($imagePathM.$getProductImage->image))
+            {
+                    unlink($imagePathM.$getProductImage->image);
+            }
+              
+            if(file_exists($imagePathS.$getProductImage->image))
+            {
+                    unlink($imagePathS.$getProductImage->image);
+            }
+        }
+        ProductImage::where('id', $id)->delete();
+        
+        return back()->with('success_msg', 'Product Image Deleted Successfully.');
+     }
+    
 
 }
