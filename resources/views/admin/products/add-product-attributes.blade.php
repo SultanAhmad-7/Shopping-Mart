@@ -114,7 +114,9 @@
         </div>
 
         {{-- Displaying the Product Attributes --}}
-
+      <form action="{{ url('admin/edit-product-attributes/'. $productData['id']) }}" method="post">
+        @csrf
+        
         <div class="card">
             <div class="card-header">
               <h3 class="card-title">Product Attributes</h3>
@@ -138,25 +140,33 @@
                     $i=1;
                   @endphp
                   @forelse($productData['attributes'] as $attributes)
+                  <input style="display: none;" type="text" name="attrId[]" value="{{ $attributes['id']}}">
                     <tr>
                       <td>{{ $i++ }}</td>
                       <td>{{ $attributes['size'] }}</td>
                       <td>{{ $attributes['sku'] }}</td>
-                      <td>{{ $attributes['stock'] }}</td>
-                      <td>{{ $attributes['price'] }}</td>
-                      {{-- @if($attributes->status == 1)
                       <td>
-                         <a href="javascript:void(0)" id="attributes-{{ $attributes->id }}" attributes="{{ $attributes->id }}" class="updateProductStatus">
-                          <span class="badge rounded-pill bg-info text-dark text-sm">Active</span>
-                        </a>
+                        <input type="number" name="stock[]" id="stock" value="{{ $attributes['stock'] }}" required="">
                       </td>
+                      <td>
+                        <input type="number" name="price[]" id="price" value="{{ $attributes['price'] }}" required="">
+                      </td>
+                      <td>
+                      @if($attributes['status'] == 1)
+                    
+                         <a href="javascript:void(0)" id="attributes-{{ $attributes['id'] }}" attributes_id="{{ $attributes['id'] }}" class="updateAttributesStatus">
+                          <span >Active</span>
+                        </a>
+                   
                     @else
-                      <td> 
-                        <a href="javascript:void(0)" id="attributes-{{ $attributes->id }}" attributes="{{ $attributes->id }}" class="updateProductStatus">
-                              <span class="badge rounded-pill bg-danger text-dark text-sm">Inactive</span>
+                      
+                        <a href="javascript:void(0)" id="attributes-{{ $attributes['id'] }}" attributes_id="{{ $attributes['id'] }}" class="updateAttributesStatus">
+                              <span >Inactive</span>
                         </a>
-                      </td>
-                    @endif --}}
+                     
+                    @endif
+                    <a record="attribute" recordid="{{ $attributes['id'] }}" href="{{-- url('admin/delete-category', $category->id) --}}" class="confirmDelete"><i class="fas fa-trash fa-xs"></i></a>
+                  </td>
                       <td> 
                         
                     </td>
@@ -179,7 +189,13 @@
               </table>
             </div>
             <!-- /.card-body -->
-          </div>
+            <div class="card-footer">
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-sm">Update Attributes</button>
+              </div>
+            </div>
+        </div>
+      </form>
         <!-- /.card-body -->
 
 </div>

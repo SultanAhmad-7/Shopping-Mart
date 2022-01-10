@@ -304,7 +304,7 @@ class ProductController extends Controller
 
     
     /**
-     * Delete category
+     * Delete Product
      */
 
     public function deleteProduct($id)
@@ -372,6 +372,71 @@ class ProductController extends Controller
         return view('admin.products.add-product-attributes')->with(compact('title','productData'));
     }
 
+        // Edit Product Attributes
+        
+        public function editProductAttributes($id)
+        {
+            if(request()->isMethod('POST'))
+            {
+                $data = request()->all();
+           //  echo "<pre>"; print_r($data); die();
+                foreach ($data['attrId'] as $key => $attr) {
+                    if(!empty($attr))
+                    {
+                    //     $skuCheck = ProductAttribute::where(['sku' => $data['sku'][$key]])->count();   
+                    //  if($skuCheck > 0)
+                    //  {
+                    //     return back()->with('sku_exists_msg', 'SKU is already exists. Please add new one.');
+                    //  }
 
+                    //  $sizeCheck = ProductAttribute::where(['product_id' => $id, 'size' => $data['size'][$key]])->count();   
+                    //  if($sizeCheck > 0)
+                    //  {
+                    //     return back()->with('sku_exists_msg', 'Size is already exists for this Product. Please add new one.');
+                    //  }
+                        ProductAttribute::where([
+                                                'id' => $data['attrId'][$key]
+                                                ])->update(['stock'=> $data['stock'][$key],
+                                                            'price' => $data['price'][$key]
+                                                            ]);
+                    }
+                }
+
+                return back()->with('success_msg', 'Attributes Updated Successfully.');
+            }
+        }
+
+         /**
+     * @return status active or inactive
+     */
+    public function updateAttributesStatus(Request $request)
+    {
+        if($request->ajax()){
+            $data = $request->all();
+            if($data['status'] == 'Active'){
+                $status = 0;
+            }else{
+                $status = 1;
+            }
+            ProductAttribute::where('id', $data['attributes_id'])->update(['status' => $status]);
+            return response()->json(['status' => $status, 'attributes_id' => $data['attributes_id']]);
+        }
+    }
+
+     /**
+     * Delete Attribute
+     */
+
+    public function deleteAttribute($id)
+    {
+        //$this->deleteCategoryImageFromDirector($id);
+        //$categoryDelete = Category::where('id', $id)->delete();
+       
+       //  if(isset($categoryDelete)) {
+       //     Category::where('parent_id')->first()->delete();
+       //  }
+       ProductAttribute::where('id', $id)->delete();
+        return back()->with('success_msg', 'Product Deleted Successfully.');
+    }
 
 }

@@ -165,6 +165,8 @@ $(document).ready(function() {
         });
     });
 
+
+
     // add remove field dynamically
     var maxField = 10; //Input fields increment limitation
     var addButton = $('.add_button'); //Add button selector
@@ -194,4 +196,27 @@ $(document).ready(function() {
         x--; //Decrement field counter
     });
 
+    // Attribute updateStatus
+    $('.updateAttributesStatus').click(function() {
+
+        let status = $(this).text();
+        let attributes_id = $(this).attr('attributes_id');
+
+        // window.alert(" status " + status + " product_id-" + product_id);
+        $.ajax({
+            method: 'post',
+            url: '/admin/update-attribute-status',
+            data: {
+                status: status,
+                attributes_id: attributes_id
+            },
+            success: function(result) {
+                if (result['status'] == 1) {
+                    $('#attributes-' + attributes_id).html('Active');
+                } else {
+                    $('#attributes-' + attributes_id).html('Inactive');
+                }
+            }
+        });
+    });
 });
