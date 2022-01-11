@@ -73,19 +73,23 @@
                   <td>{{ $category->sections->name }}</td>
                   <td>{{ $category->url }}</td>
                   <td>{{ $category->category_discount }}</td>
+                  <td> 
                   @if($category->status == 1)
-                    <td> <a href="javascript:void(0)" id="category-{{ $category->id }}"
-                        category_id="{{ $category->id }}" class="updateCategoryStatus"><span
-                          class="badge rounded-pill bg-info text-dark text-sm">Active</span></a></td>
+                   <a href="javascript:void(0)" id="category-{{ $category->id }}"
+                        category_id="{{ $category->id }}" class="updateCategoryStatus">
+                        <i class="fas fa-toggle-on fa-1x" aria-hidden="true" status="Active"></i>
+                    </a>
                   @else
-                    <td> <a href="javascript:void(0)" id="category-{{ $category->id }}"
-                        category_id="{{ $category->id }}" class="updateCategoryStatus"><span
-                          class="badge rounded-pill bg-danger text-dark text-sm">Inactive</span></a></td>
+                    <a href="javascript:void(0)" id="category-{{ $category->id }}"
+                        category_id="{{ $category->id }}" class="updateCategoryStatus">
+                        <i class="fas fa-toggle-off fa-1x" aria-hidden="true" status="Inactive"></i>
+                      </a>
                   @endif
-                  <td> <a href="{{ url('admin/add-edit-category',  $category->id ) }}"
-                      class="btn btn-info btn-sm">Edit</a> <a record="category" recordid="{{ $category->id }}"
-                      href="{{-- url('admin/delete-category', $category->id) --}}"
-                      class="btn btn-danger btn-sm confirmDelete">Delete</a></td>
+                </td>
+                  <td> 
+                    <a title="Edit Category" href="{{ url('admin/add-edit-category',  $category->id ) }}" class=""><i class="fas fa-edit fa-xs"></i></a> 
+                      <a title="Delete Category" record="category" recordid="{{ $category->id }}" href="#" class="confirmDelete"><i class="fas fa-trash fa-xs"></i></a>
+                    </td>
                 </tr>
               @empty
                 <p class="alert alert-warning">No Record Found</p>

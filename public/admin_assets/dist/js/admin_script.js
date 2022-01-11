@@ -98,7 +98,7 @@ $(document).ready(function() {
 
     $('.updateCategoryStatus').click(function() {
 
-        let status = $(this).text();
+        let status = $(this).children("i").attr("status");
         let category_id = $(this).attr('category_id');
 
         //window.alert(" status " + status + " category_id-" + category_id);
@@ -111,9 +111,9 @@ $(document).ready(function() {
             },
             success: function(result) {
                 if (result['status'] == 1) {
-                    $('#category-' + category_id).html('<a href="javascript:void(0)" class="updateCategoryStatus"><span class="badge rounded-pill bg-info">Active</span></a>');
+                    $('#category-' + category_id).html('<i class="fas fa-toggle-on fa-1x" aria-hidden="true" status="Active"></i>');
                 } else {
-                    $('#category-' + category_id).html('<a href="javascript:void(0)" class="updateCategoryStatus"><span class="badge rounded-pill bg-danger">Inactive</span></a>');
+                    $('#category-' + category_id).html('<i class="fas fa-toggle-off fa-1x" aria-hidden="true" status="Inactive"></i>');
                 }
             }
         });
@@ -172,7 +172,7 @@ $(document).ready(function() {
 
     $('.updateProductStatus').click(function() {
 
-        let status = $(this).text();
+        let status = $(this).children("i").attr("status");
         let product_id = $(this).attr('product_id');
 
         // window.alert(" status " + status + " product_id-" + product_id);
@@ -185,9 +185,9 @@ $(document).ready(function() {
             },
             success: function(result) {
                 if (result['status'] == 1) {
-                    $('#product-' + product_id).html('<a href="javascript:void(0)" class="updateProductStatus"><span class="badge rounded-pill bg-info">Active</span></a>');
+                    $('#product-' + product_id).html('<i class="fas fa-toggle-on fa-1x" aria-hidden="true" status="Active"></i>');
                 } else {
-                    $('#product-' + product_id).html('<a href="javascript:void(0)" class="updateProductStatus"><span class="badge rounded-pill bg-danger">Inactive</span></a>');
+                    $('#product-' + product_id).html('<i class="fas fa-toggle-off fa-1x" aria-hidden="true" status="Inactive"></i>');
                 }
             }
         });

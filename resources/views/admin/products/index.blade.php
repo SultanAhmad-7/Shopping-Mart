@@ -71,13 +71,13 @@
                   @if($product->status == 1)
                   
                      <a href="javascript:void(0)" id="product-{{ $product->id }}" product_id="{{ $product->id }}" class="updateProductStatus">
-                      <span class="badge rounded-pill bg-info text-dark text-sm">Active</span>
+                      <i class="fas fa-toggle-on fa-1x" aria-hidden="true" status="Active"></i>
                     </a>
                
                 @else
                   
                     <a href="javascript:void(0)" id="product-{{ $product->id }}" product_id="{{ $product->id }}" class="updateProductStatus">
-                          <span class="badge rounded-pill bg-danger text-dark text-sm">Inactive</span>
+                      <i class="fas fa-toggle-off fa-1x" aria-hidden="true" status="Inactive"></i>
                     </a>
                  
                 @endif

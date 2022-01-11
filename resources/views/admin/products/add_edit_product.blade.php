@@ -72,6 +72,20 @@
                     @endforeach
                   </select>
                 </div>
+                {{-- Brands DropDown --}}
+                <div class="form-group">
+                  <label for="">Select Brand</label>
+                  <select name="brand_id" id="brand_id" class="form-control" style="width: 100%;">
+                    <option value="">-- Select Brand --</option>
+                    @foreach ($brands as $brand)
+                        <option value="{{ $brand['id'] }}" @if (!empty(@old('brand_id')) && $brand['id'] == @old('brand_id'))
+                                selected="" 
+                                @elseif(!empty($productData['brand_id']) && $productData['brand_id'] == $brand['id'])
+                                selected=""
+                            @endif>{{ $brand['name'] }}</option>
+                    @endforeach
+                  </select>
+                </div>
                 {{-- Product name --}}
                 <div class="form-group">
                   <label for="productName">Product Name</label>
@@ -119,7 +133,7 @@
               {{-- product Description --}}
               <div class="form-group">
                 <label for="description">Product Description</label>
-                <textarea name="description" id="" cols="10" rows="03" class="form-control">{{ !empty($productData['description']) ? $productData['description']:old('description')}}</textarea>
+                <textarea name="description" id="description" cols="10" rows="03" class="form-control">{{ !empty($productData['description']) ? $productData['description']:old('description')}}</textarea>
               </div>
               <div class="col-12 col-sm-6">
                  {{-- fabric --}}

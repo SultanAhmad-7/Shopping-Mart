@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Brand;
 use App\Category;
 use App\Product;
 use Illuminate\Http\Request;
@@ -82,11 +83,13 @@ class ProductController extends Controller
             // die();
             $rules = [
                 'category_id' => 'required',
+                'brand_id' => 'required',
                 'product_name' => 'required|regex:/^[\pL\s\-]+$/u',
                 'product_code' => 'required|alpha_num',
                 'product_price' => 'required|numeric',
                 'product_color' => 'required|alpha',
                 'product_weight' => 'required|numeric',
+                'description' => 'required',
                 'main_image' => 'image',
 
                 
@@ -94,6 +97,7 @@ class ProductController extends Controller
             ];
             $messages = [
                 'category_id.required' => 'Category needs to be selected.',
+                'brand_id.required' => 'Brand needs to be selected.',
                 'product_name.regex' => 'Product Name field should be filled.',
                 'product_name.alpha' => 'Product Name should has alphabatic letters.',
                 'product_code.required' => 'Product code field should be filled.',
@@ -185,6 +189,7 @@ class ProductController extends Controller
                 //echo $is_featured; die();
             $category = Category::find($data['category_id']);
             $product->section_id = $category['section_id'];
+            $product->brand_id = $data['brand_id'];
             $product->category_id = $data['category_id'];
             $product->product_name = $data['product_name'];
             $product->product_code = $data['product_code'];
@@ -221,6 +226,8 @@ class ProductController extends Controller
             $categories = Section::with('categories')->get();
             // Now lets debug it
             $categories = json_decode(json_encode($categories), true);
+            $brands = Brand::where('status',1)->get();
+            $brands = json_decode(json_encode($brands),true);
             // echo "<pre>";
             // print_r($categories);
             // die();
@@ -232,8 +239,9 @@ class ProductController extends Controller
                               'patternArray',
                               'fitArray',
                             'occasionArray',
-                                        'categories',
-                                        'productData'
+                            'categories',
+                            'productData',
+                                         'brands'
                                         ));
     }
 
