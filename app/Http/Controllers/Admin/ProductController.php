@@ -116,9 +116,9 @@ class ProductController extends Controller
             if($request->hasFile('main_image')){
                 $tmp_image = $request->file('main_image');
                 if($tmp_image->isValid()){
-                    $mainImageName = $tmp_image->getClientOriginalName();
+                    
                     $mainImageExt = $tmp_image->getClientOriginalExtension();
-                    $imageName = $mainImageName.'-'.rand(111,9999).'.'.$mainImageExt;
+                    $imageName = rand(111,9999).'.'.$mainImageExt;
                     $imagePathL = 'img/adm_img/admin_product/large/' . $imageName;
                     $imagePathM = 'img/adm_img/admin_product/medium/' . $imageName;
                     $imagePathS = 'img/adm_img/admin_product/small/' . $imageName;

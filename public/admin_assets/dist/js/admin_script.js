@@ -271,4 +271,30 @@ $(document).ready(function() {
             }
         });
     });
+
+    // Banner Status update
+
+    $('.updateBannerStatus').click(function() {
+
+        let status = $(this).children("i").attr("status");
+        let banner_id = $(this).attr('banner_id');
+
+        // window.alert(" status " + status + " product_id-" + product_id);
+        $.ajax({
+            method: 'post',
+            url: '/admin/update-banner-status',
+            data: {
+                status: status,
+                banner_id: banner_id
+            },
+            success: function(result) {
+                if (result['status'] == 1) {
+                    $('#banner-' + banner_id).html('<i class="fas fa-toggle-on fa-1x" aria-hidden="true" status="Active"></i>');
+                } else {
+                    $('#banner-' + banner_id).html('<i class="fas fa-toggle-off fa-1x" aria-hidden="true" status="Inactive"></i>');
+                }
+            }
+        });
+    });
+
 });

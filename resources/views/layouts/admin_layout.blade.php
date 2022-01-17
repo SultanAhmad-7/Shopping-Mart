@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="{{ url('admin_assets/plugins/daterangepicker/daterangepicker.css')}}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{ url('admin_assets/plugins/summernote/summernote-bs4.min.css')}}">
+  
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -65,6 +66,7 @@
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ url('admin_assets/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+
 {{-- Custom admin_script js file to update Status --}}
 <script src="{{ url('admin_assets/dist/js/admin_script.js')}}"></script>
 <script src="{{ url('admin_assets/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
@@ -127,8 +129,6 @@
     }).buttons().container().appendTo('#productTable_wrapper .col-md-6:eq(0)');
   });
 
-  
-  
 </script>
 </body>
 </html>

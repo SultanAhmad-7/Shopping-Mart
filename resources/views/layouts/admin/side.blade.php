@@ -95,7 +95,8 @@
                                   'sections', 'section.index','create-section',
                                   'categories', 'category.lists','add-edit-category',
                                   'products', 'product.lists','add-edit-product','add-product-attributes','add-product-images',
-                                  'brands'
+                                  'brands','add-edit-brand',
+                                  'banners','banner.list','add-edit-banner'
 
                                 ];
           @endphp
@@ -109,7 +110,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('brand.lists') }}" class="nav-link {{ in_array($uri, ["brands"]) ? "active" : ""}}">
+                <a href="{{ route('brand.lists') }}" class="nav-link {{ in_array($uri, ["brands","add-edit-brand"]) ? "active" : ""}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Brands List</p>
                 </a>
@@ -133,7 +134,12 @@
                   <p>Product List</p>
                 </a>
               </li>
-              
+              <li class="nav-item">
+                <a href="{{ route('banner.list') }}" class="nav-link {{ in_array($uri, ["banners","add-edit-banner"]) ? "active" : ""}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Banner List</p>
+                </a>
+              </li>
               {{-- <li class="nav-item">
                 <a href="{{ route('section.add') }}" class="nav-link {{$uri == "create-section" ? "active" : ""}}">
                   <i class="far fa-circle nav-icon"></i>

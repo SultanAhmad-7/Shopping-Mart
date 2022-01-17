@@ -14,10 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('front.index');
+// });
 
+Route::namespace('Front')->group(function(){
+    Route::get('/' , 'HomeController@index');
+    Route::get('/about', 'HomeController@about');
+});
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -78,6 +82,12 @@ Route::prefix('admin')->namespace('Admin')->group(function() {
     Route::match(['get', 'post'],'add-product-images/{id}', 'ProductController@addImages');
     Route::post('update-image-status', 'ProductController@updateImageStatus');
     Route::get('delete-image/{id}', 'ProductController@deleteImage');
+
+    // Banners Routes
+    Route::get('banners', 'BannersController@index')->name('banner.list');
+    Route::get('delete-banner/{id}', 'BannersController@deleteBanner'); 
+    Route::post('update-banner-status', 'BannersController@updateBannerStatus');
+    Route::match(['get','post'],'add-edit-banner/{id?}', 'BannersController@addEditBanner');
  });
 });
 
