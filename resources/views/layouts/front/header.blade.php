@@ -1,3 +1,10 @@
+@php
+use \App\Section;
+	$sections = Section::sections();
+	$sections = json_decode(json_encode($sections),true);
+	// echo "<pre>"; print_r($sections); die();
+@endphp
+
 <div id="header">
 	<div class="container">
 		<div id="welcomeLine" class="row">
@@ -18,23 +25,23 @@
 		          <span class="icon-bar"></span>
 		          <span class="icon-bar"></span>
 		        </a>
-		        <a class="brand" href="#">Stack Developers</a>
+		        <a class="brand" href="{{ route('home.index') }}">Shopping Mart</a>
 		        <div class="nav-collapse">
 		          <ul class="nav">
-		            <li class="active"><a href="#">Home</a></li>
+		            <li class="active"><a href="{{ route('home.index') }}">Home</a></li>
                     @foreach ($sections as $section)
                         @if (count($section['categories']) > 0)
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ $section['name']}} <b class="caret"></b></a>
+								<ul class="dropdown-menu">
                                 @foreach ($section['categories'] as $category)
-                                    <ul class="dropdown-menu">
                                         <li class="divider"></li>
-                                        <li class="nav-header"><a href="#">{{ $category['category_name']}}</a></li>
+                                        <li class="nav-header"><a href="{{ route('product-list.index', $category['url']) }}">{{ $category['category_name']}}</a></li>
                                     @foreach ($category['sub_categories'] as $subCategory)
-                                        <li><a href="#">{{ $subCategory['category_name'] }}</a></li>
+                                        <li><a href="{{ route('product-list.index', $subCategory['url']) }}">{{ $subCategory['category_name'] }}</a></li>
                                     @endforeach
-                                    </ul>
-                                @endforeach
+									@endforeach
+								</ul>
                             </li>
                         @endif
                     @endforeach

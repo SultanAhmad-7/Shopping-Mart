@@ -11,8 +11,8 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $sections = Section::sections();
-        $sections = json_decode(json_encode($sections), true);
+        // $sections = Section::sections();
+        // $sections = json_decode(json_encode($sections), true);
         $productFeaturedCount = Product::where(['status' => 1,'is_featured' => 'Yes'])->count();
         $productFeatured = Product::where('is_featured', 'Yes')->get()->toArray();
         $productFeaturedChunk = array_chunk($productFeatured, 4);
@@ -25,7 +25,7 @@ class HomeController extends Controller
         $page = 'index';
         return view('front.index')
                             ->with(compact('page',
-                                             'sections',
+                                             //'sections',
                                             'productFeaturedChunk',
                                             'productFeaturedCount',
                                             'productLatest'));

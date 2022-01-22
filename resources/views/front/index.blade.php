@@ -1,5 +1,5 @@
 @extends('layouts.front_layout')
-@section('title','Stack Developers online Shopping cart')
+@section('title','Shopping Mart online Shopping cart')
     
 @section('content')
 <div class="span9">
