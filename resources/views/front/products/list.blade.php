@@ -15,14 +15,27 @@
         {{ $categoryDetail['catDetails']['description'] }}
     </p>
     <hr class="soft"/>
-    <form class="form-horizontal span6">
+    <form name="sortProducts" id="sortProducts" class="form-horizontal span6">
+        <input type="hidden" name="url" id="url" value="{{ $url }}">
         <div class="control-group">
-            <label class="control-label alignL">Sort By </label>
-            <select>
-                <option>Priduct name A - Z</option>
-                <option>Priduct name Z - A</option>
-                <option>Priduct Stoke</option>
-                <option>Price Lowest first</option>
+            <label class="control-label">Sort by:</label>
+            <select name="sort" id="sort">
+                <option value="">Featured</option>
+                <option value="newest-arrivals" @if (isset($_GET['sort']) && $_GET['sort'] == 'newest-arrivals')
+                    selected=''
+                @endif>Newest Arrivals</option>
+                <option value="product-a-z" @if (isset($_GET['sort']) && $_GET['sort'] == 'product-a-z')
+                    selected=''
+                @endif>Product: A - Z</option>
+                <option value="product-z-a" @if (isset($_GET['sort']) && $_GET['sort'] == 'product-z-a')
+                    selected=''
+                @endif>Product: Z - A</option>
+                <option value="price-low-to-high" @if (isset($_GET['sort']) && $_GET['sort'] == 'price-low-to-high')
+                    selected=''
+                @endif>Price: Low To High</option>
+                <option value="price-hight-to-low" @if (isset($_GET['sort']) && $_GET['sort'] == 'price-hight-to-low')
+                    selected=''
+                @endif> Price: High To Low</option>
             </select>
         </div>
     </form>
@@ -32,63 +45,16 @@
         <a href="#blockView" data-toggle="tab"><span class="btn btn-large btn-primary"><i class="fas fa-th-large"></i></span></a>
     </div>
     <br class="clr"/>
-    <div class="tab-content">
-        <div class="tab-pane" id="listView">
-            @foreach ($categoryProducts as $product)
-            <div class="row">
-                <div class="span2">
-                    <img style="width: 170px;" src="{{ (empty($product['main_image'])) ? asset('img/adm_img/admin_product/small/no-image.png') : asset('img/adm_img/admin_product/small/'. $product['main_image']) }}" alt="{{ $product['product_name'] }}">
-                </div>
-                <div class="span4">
-                    <h3>{{ $product['brand']['name']}}</h3>
-                    <hr class="soft"/>
-                    <h5>{{ $product['product_name'] }}</h5>
-                    <p>
-                        {{ substr($product['description'],0,30) }}
-                    </p>
-                    <a class="btn btn-small pull-right" href="product_details.html">View Details</a>
-                    <br class="clr"/>
-                </div>
-                <div class="span3 alignR">
-                    <form class="form-horizontal qtyFrm">
-                        <h3> ${{ $product['product_name']}}</h3>
-                      
-                        <label class="checkbox">
-                            <input type="checkbox">  Adds product to compair
-                        </label><br/>
-                        
-                        <a href="product_details.html" class="btn btn-large btn-primary"> Add to <i class=" icon-shopping-cart"></i></a>
-                        <a href="product_details.html" class="btn btn-large"><i class="fas fa-search-plus"></i></a>
-                        
-                    </form>
-                </div>
-            </div>
-            <hr class="soft"/> 
-            @endforeach
-        </div>
-        <div class="tab-pane  active" id="blockView">
-            <ul class="thumbnails">
-                @foreach ($categoryProducts as $product)
-                <li class="span3">
-                    <div class="thumbnail">
-                        <a  href="product_details.html"><img style="width: 170px;" src="{{ (empty($product['main_image'])) ? asset('img/adm_img/admin_product/small/no-image.png') : asset('img/adm_img/admin_product/small/'. $product['main_image']) }}"></a>
-                        <div class="caption">
-                            <h5>{{ $product['product_name'] }}</h5>
-                            <p>
-                                {{ $product['brand']['name']}}
-                            </p>
-                            <h4 style="text-align:center"><a class="btn" href="product_details.html"><i class="fas fa-search-plus"></i></a> <a class="btn" href="#">Add to <i class="fas fa-shopping-cart"></i></a> <a class="btn btn-primary" href="#">Rs.{{ $product['product_price'] }}</a></h4>
-                        </div>
-                    </div>
-                </li>
-                @endforeach
-            </ul>
-            <hr class="soft"/>
-        </div>
+    <div class="tab-content filter_products">
+    @include('front.products.ajax_product_filter')
     </div>
     <a href="compair.html" class="btn btn-large pull-right">Compair Product</a>
     <div class="pagination">
+        @if (isset($_GET['sort']) && !empty($_GET['sort']))
+            {{ $categoryProducts->appends(['sort' => 'newest-arrivals'])->links() }}
+        @else
         {{ $categoryProducts->links()}}
+        @endif
     </div>
     <br class="clr"/>
 </div>

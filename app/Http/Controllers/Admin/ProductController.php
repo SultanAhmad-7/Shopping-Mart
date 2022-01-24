@@ -217,12 +217,12 @@ class ProductController extends Controller
             Session::flash('success_msg', $message);
             return redirect(route('product.lists'));
         }
-
-           $fabricArray = array('Cotton', 'Polyester', 'Whool');
-           $sleeveArray = array('Full Sleeve', 'Half Sleeve', 'Short Sleeve', 'Sleeveless');
-          $patternArray = array('Checked', 'Plain', 'Printed', 'Self', 'Solid');
-              $fitArray = array('Regular', 'Slim');
-        $occasionArray = array('Casual', 'Formal');
+            $productFilter = Product::filters();
+           $fabricArray = $productFilter['fabricArray'];
+           $sleeveArray = $productFilter['sleeveArray'];
+          $patternArray = $productFilter['patternArray'];
+              $fitArray = $productFilter['fitArray'];
+        $occasionArray =  $productFilter['occasionArray'];
             $categories = Section::with('categories')->get();
             // Now lets debug it
             $categories = json_decode(json_encode($categories), true);

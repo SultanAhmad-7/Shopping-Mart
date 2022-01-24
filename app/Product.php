@@ -41,5 +41,20 @@ class Product extends Model
         return $this->belongsTo(Brand::class);
     }
 
+    public static function filters()
+    {
+        
+        $productFilter['fabricArray'] = array('Cotton', 'Polyester', 'Whool');
+        
+        $productFilter['sleeveArray'] = array('Full Sleeve', 'Half Sleeve', 'Short Sleeve', 'Sleeveless');
+        
+        $productFilter['patternArray'] = array('Checked', 'Plain', 'Printed', 'Self', 'Solid');
+           
+        $productFilter['fitArray'] = array('Regular', 'Slim');
+        
+        $productFilter['occasionArray'] = array('Casual', 'Formal');
+        return $productFilter;
+    }
+
     
 }
