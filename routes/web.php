@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
+use App\Category;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,13 +20,22 @@ use Illuminate\Support\Facades\Route;
 
 Route::namespace('Front')->group(function(){
     Route::get('/' , 'HomeController@index')->name('home.index');
-    Route::get('/about', function(){
-        return "about";
-    });
-    Route::get('/contact-us', function(){
-        return "contact";
-    });
+    // Route::get('/about', function(){
+    //     return "about";
+    // });
+   
+    // To avoid errors make sure this url must be at down.
     Route::get('/{url}','ProductsController@index')->name('product-list.index');
+    Route::get('product/{id}', function($id){
+        return "product" . $id;
+    });
+    // Making Category URL dynamic
+//     $categoryUrl = Category::select('url')->pluck('url')->toArray();
+//    // echo "<pre>"; print_r($categoryUrl); die();
+//    foreach ($categoryUrl as $url) {
+//     Route::get('/'.$url,'ProductsController@index')->name('product-list.index');
+//    }
+    
    
 });
 Auth::routes();
