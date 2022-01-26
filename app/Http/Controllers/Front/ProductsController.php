@@ -21,10 +21,28 @@ class ProductsController extends Controller
         {
             //echo "its working";
             $categoryDetail = Category::categories($url);
-            //dd($category);
-           
            $categoryProducts = Product::with('brand')->whereIn('category_id',$categoryDetail['catIds'])->where('status',1);
-
+            
+           if(isset($data['fabric']) && !empty($data['fabric']))
+           {
+            $categoryProducts->whereIn('fabric',$data['fabric']);
+           }
+           if(isset($data['sleeve']) && !empty($data['sleeve']))
+           {
+            $categoryProducts->whereIn('sleeve',$data['sleeve']);
+           }
+           if(isset($data['pattern']) && !empty($data['pattern']))
+           {
+            $categoryProducts->whereIn('pattern',$data['pattern']);
+           }
+           if(isset($data['fit']) && !empty($data['fit']))
+           {
+            $categoryProducts->whereIn('fit',$data['fit']);
+           }
+           if(isset($data['occasion']) && !empty($data['occasion']))
+           {
+            $categoryProducts->whereIn('occasion',$data['occasion']);
+           }
            if(isset($_GET['sort']) && !empty($_GET['sort']))
            {
                 if($_GET['sort'] == 'newest-arrivals')
@@ -60,7 +78,7 @@ class ProductsController extends Controller
                 //dd($category);
                
                $categoryProducts = Product::with('brand')->whereIn('category_id',$categoryDetail['catIds'])->where('status',1);
-               $categoryProducts = $categoryProducts->paginate(6);
+               $categoryProducts = $categoryProducts->paginate(30);
              // $categoryProducts = json_decode(json_encode($categoryProducts),true);
             //   echo "<pre>"; print_r($categoryDetail); 
             // echo "<pre>"; print_r($categoryProducts); die();
