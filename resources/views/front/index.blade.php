@@ -16,7 +16,7 @@
                             <li class="span3">
                                 <div class="thumbnail">
                                     <i class="tag"></i>
-                                    <a href="product_details.html">
+                                    <a href="{{ url('product', $item['id']) }}">
                                         @php
                                             $path = '/img/admin_img/admin_product/small/'.$item['main_image']
                                         @endphp
@@ -49,14 +49,14 @@
                 @php
                     $path = 'img/admin_img/admin_product/small/'.$latest['main_image']
                 @endphp
-                    <a  href="product_details.html"><img style="width: 170px;" src="{{ (empty($latest['main_image'])) ? asset('img/adm_img/admin_product/small/no-image.png') : asset('img/adm_img/admin_product/small/'. $latest['main_image']) }}"></a>
+                    <a  href="{{ url('product', $latest['id'])}}"><img style="width: 170px;" src="{{ (empty($latest['main_image'])) ? asset('img/adm_img/admin_product/small/no-image.png') : asset('img/adm_img/admin_product/small/'. $latest['main_image']) }}"></a>
                     <div class="caption">
                         <h5>{{ $latest['product_name'] }}</h5>
                         <p>
                             {{ $latest['product_code'] }} - {{ $latest['product_color']}}
                         </p>
                         
-                        <h4 style="text-align:center"><a class="btn" href="product_details.html"><i class="fas fa-search-plus"></i></a> <a class="btn" href="#">Add to <i class="fas fa-shopping-cart"></i></a> <a class="btn btn-primary" href="#">Rs.{{ $latest['product_price']}}</a></h4>
+                        <h4 style="text-align:center"><a class="btn" href="{{ url('product', $latest['id'])}}"><i class="fas fa-search-plus"></i></a> <a class="btn" href="#">Add to <i class="fas fa-shopping-cart"></i></a> <a class="btn btn-primary" href="#">Rs.{{ $latest['product_price']}}</a></h4>
                     </div>
                 </div>
             </li>

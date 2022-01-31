@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Category;
 use App\Http\Controllers\Controller;
 use App\Product;
+use App\ProductAttribute;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -114,6 +115,29 @@ class ProductsController extends Controller
 
     public function show($id)
     {
+        $productDetail = Product::with('category','brand','images','attributes')->find($id)->toArray();
+      //  echo "<pre>"; print_r($productDetail); die();
+       $productRelated = Product::where(['category_id' => $productDetail['category']['id']])->where('id','!=',$id)->inRandomOrder()->limit(6)->get()->toArray();
+      // echo "<pre>", print_r($productRelated); die();
+      $productStocks = ProductAttribute::where('product_id',$id)->sum('stock');
+      //echo "<pre>"; print_r($productStocks); die();
+     
+        return view('front.products.product_detail')
+                        ->with(compact(
+                                            'productDetail',
+                                            'productRelated',
+                                            'productStocks'
+                                            ));
+    }
 
+    public function productPrice()
+    {
+        if(request()->ajax())
+        {
+            $data = request()->all();
+            //echo "<pre>"; print_r($data); die();
+            $result = ProductAttribute::where(['product_id' => $data['product_id'], 'size' => $data['size']])->first();
+           return $result->price;
+        }
     }
 }

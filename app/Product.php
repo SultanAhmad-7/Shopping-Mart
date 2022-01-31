@@ -9,7 +9,7 @@ class Product extends Model
 {
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category_id')->select('id', 'category_name');
+        return $this->belongsTo(Category::class, 'category_id')->select('id', 'category_name','url');
         // return $this->belongsTo(Category::class, 'category_id')->where('category.id', $id)->select('category_name');
     }
 

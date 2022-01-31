@@ -8,6 +8,14 @@
 // });
 
 $(document).ready(function() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+
+
     $('#sort').on('change', function() {
         // alert('Its working');
         let fabric = get_filter("fabric");
@@ -54,5 +62,25 @@ $(document).ready(function() {
         });
         return filter;
     }
+
+    $('#getPrice').on('change', function() {
+        // alert('its working');
+        let size = $(this).val();
+        let product_id = $(this).attr('product-id');
+        // alert(size + " " + product_id);
+        $.ajax({
+
+            url: '/get-product-price',
+            data: { size: size, product_id: product_id },
+            type: 'POST',
+            success: function(result) {
+                //alert(result);
+                $('.getAttrPrice').html("Rs. " + result);
+            },
+            // error: function(params) {
+            //     alert('Error');
+            // },
+        });
+    });
 
 });

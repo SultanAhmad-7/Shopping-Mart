@@ -26,9 +26,9 @@ Route::namespace('Front')->group(function(){
    
     // To avoid errors make sure this url must be at down.
     Route::get('/{url}','ProductsController@index')->name('product-list.index');
-    Route::get('product/{id}', function($id){
-        return "product" . $id;
-    });
+    Route::get('product/{id}', 'ProductsController@show');
+    Route::post('/get-product-price', 'ProductsController@productPrice');
+
     // Making Category URL dynamic
 //     $categoryUrl = Category::select('url')->pluck('url')->toArray();
 //    // echo "<pre>"; print_r($categoryUrl); die();
