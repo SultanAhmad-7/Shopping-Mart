@@ -20,6 +20,11 @@ class Category extends Model
         return $this->belongsTo('App\Category', 'parent_id')->select('id', 'category_name');
     }
 
+    /**
+     * This categories() method with parameter $url
+     * will fetch urls from category and sub-categories.
+     */
+
     public static function categories($url)
     {
         $catDetails = Category::select('id','parent_id','category_name','url','description')->with(['subCategories' => function($query){
@@ -28,6 +33,7 @@ class Category extends Model
         //dd($catDetails);
 
         // for breadCrumbs
+        
         if($catDetails['parent_id'] == 0) 
         {
             $breadCrumb = "<a href='".url($catDetails['url'])."' >".$catDetails['category_name']."</a>";

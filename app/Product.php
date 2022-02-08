@@ -28,7 +28,7 @@ class Product extends Model
 
     public function attributes()
     {
-        return $this->hasMany(ProductAttribute::class);
+        return $this->hasMany(ProductAttribute::class)->where('status',1);
     }
 
     public function images()
@@ -56,5 +56,9 @@ class Product extends Model
         return $productFilter;
     }
 
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
     
 }

@@ -67,7 +67,10 @@ $(document).ready(function() {
         // alert('its working');
         let size = $(this).val();
         let product_id = $(this).attr('product-id');
-        // alert(size + " " + product_id);
+        if (size == '') {
+            alert('Please Select a size');
+        }
+
         $.ajax({
 
             url: '/get-product-price',

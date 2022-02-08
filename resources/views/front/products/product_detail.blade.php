@@ -41,21 +41,37 @@
                 </div>
             </div>
         </div>
+        
         <div class="span6">
+            @if(Session::has('error_message'))
+            <div class="alert alert-danger alert-dismissible mt-1">
+                
+                {{ Session::get('error_message') }}
+              </div>
+          @endif
+
+          @if(Session::has('success_message'))
+          <div class="alert alert-success alert-dismissible mt-1">
+              
+              {{ Session::get('success_message') }}
+            </div>
+        @endif
             <h3>{{ $productDetail['product_name']}} </h3>
             <small>- {{ $productDetail['brand']['name'] }}</small>
             <hr class="soft" />
             <small>{{ $productStocks }} items in stock</small>
-            <form class="form-horizontal qtyFrm">
+            <form class="form-horizontal qtyFrm" method="POST" action="{{ url('add-to-cart') }}">
+                @csrf
+            <input type="text" style="display: none;" value="{{ $productDetail['id'] }}" name="product_id">
                 <div class="control-group">
                     <h4 class="getAttrPrice">Rs. {{ $productDetail['product_price'] }}</h4>
-                    <select name="size" id="getPrice" class="span2 pull-left" product-id="{{ $productDetail['id']}}">
+                    <select name="size" id="getPrice" class="span2 pull-left" product-id="{{ $productDetail['id']}}" required>
                         <option value="">Select</option>
                         @foreach ($productDetail['attributes'] as $productAttr)
-                            <option value="{{ $productAttr['size']}} ">{{ $productAttr['size'] }}</option>  
+                            <option value="{{ $productAttr['size']}} " >{{ $productAttr['size'] }}</option>  
                         @endforeach
                     </select>
-                    <input type="number" class="span1" placeholder="Qty." />
+                    <input type="number" name="quantity" class="span1" placeholder="Qty." />
                     <button type="submit" class="btn btn-large btn-primary pull-right"> Add to cart <i
                             class=" icon-shopping-cart"></i></button>
                 </div>

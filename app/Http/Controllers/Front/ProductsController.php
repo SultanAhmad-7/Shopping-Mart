@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Cart;
 use App\Category;
 use App\Http\Controllers\Controller;
 use App\Product;
 use App\ProductAttribute;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 class ProductsController extends Controller
 {
@@ -113,6 +116,9 @@ class ProductsController extends Controller
        
     }
 
+    /**
+     * show method is used to display the detail-product-page
+     */
     public function show($id)
     {
         $productDetail = Product::with('category','brand','images','attributes')->find($id)->toArray();
@@ -129,6 +135,10 @@ class ProductsController extends Controller
                                             'productStocks'
                                             ));
     }
+    /**
+     * productPrice for Attributes.
+     * SMALL, MEDIUM, LARGE size price will be displayed.
+     */
 
     public function productPrice()
     {
@@ -139,5 +149,53 @@ class ProductsController extends Controller
             $result = ProductAttribute::where(['product_id' => $data['product_id'], 'size' => $data['size']])->first();
            return $result->price;
         }
+    }
+
+    public function addToCart()
+    {
+        $data = request()->all();
+     // echo "<pre>"; print_r($data); die();
+       $stock = ProductAttribute::select('stock')->where(['product_id' => $data['product_id'], 'size' => $data['size']])->first()->toArray();
+      if($stock['stock'] < $data['quantity'])
+      {
+          $message = 'Required Product is out of stock';
+        Session::flash('error_message', $message);
+        return redirect()->back();
+      }
+        //echo "<pre>"; print_r($stock); die();
+        // Now generate Session-Id is user is not login
+        $session_id = Session::get('session_id');
+        if(empty($session_id))
+        {
+            $session_id = Session::getId();
+            Session::put('session_id', $session_id);
+        }
+
+        // check either product exists in cart table or not.
+        if(Auth::check())
+        {
+            $cartProductCount = Cart::where(['product_id'=>$data['product_id'], 'size' => $data['size'], 'user_id' => Auth::user()->id])->count();
+        }else{
+            $cartProductCount = Cart::where(['product_id'=>$data['product_id'], 'size' => $data['size'], 'session_id' => Session::get('session_id')])->count();
+        }
+
+        
+        if($cartProductCount > 0)
+        {
+            $message = 'Product already exists in cart.';
+            Session::flash('error_message', $message);
+            return redirect()->back();
+        }
+
+        $cart = new Cart;
+        $cart->session_id = $session_id;
+        $cart->product_id = $data['product_id'];
+        $cart->size = $data['size'];
+        $cart->quantity = $data['quantity'];
+        $cart->save();
+        $message = 'Added to cart successfully';
+        Session::flash('success_message',$message);
+        return redirect()->back();
+
     }
 }

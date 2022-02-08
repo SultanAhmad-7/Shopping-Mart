@@ -23,11 +23,13 @@ Route::namespace('Front')->group(function(){
     // Route::get('/about', function(){
     //     return "about";
     // });
-   
+    Route::get('/cart','CartController@cart');
     // To avoid errors make sure this url must be at down.
     Route::get('/{url}','ProductsController@index')->name('product-list.index');
     Route::get('product/{id}', 'ProductsController@show');
     Route::post('/get-product-price', 'ProductsController@productPrice');
+    Route::post('/add-to-cart', 'ProductsController@addToCart');
+    
 
     // Making Category URL dynamic
 //     $categoryUrl = Category::select('url')->pluck('url')->toArray();
