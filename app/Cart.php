@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Session;
 
 class Cart extends Model
 {
+    /**
+     * This method is invoked at CartController
+     */
     public static function userCartItems()
     {
         if(Auth::check())
@@ -28,6 +31,10 @@ class Cart extends Model
         return $this->belongsTo(Product::class);
     }
     // This function is called at front.products.cart.blade.php file 
+    /**
+     * This method is invoked at front.products.cart page 
+     * statically
+     */
     public static function getAttrPrice($product_id, $size) 
     {
         $attrPrice = ProductAttribute::select('price')->where(['product_id'=>$product_id, 'size' => $size])->first()->toArray();

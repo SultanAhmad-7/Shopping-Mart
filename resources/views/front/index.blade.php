@@ -1,3 +1,6 @@
+@php
+    use App\Product;
+@endphp
 @extends('layouts.front_layout')
 @section('title','Shopping Mart online Shopping cart')
     
@@ -7,12 +10,13 @@
         <h4>Featured Products <small class="pull-right">{{ $productFeaturedCount }}+ featured products</small></h4>
         <div class="row-fluid">
             <div id="featured"  @if ($productFeaturedCount > 4) class="carousel slide" @endif>
-                <div class="carousel-inner">
+                <div class="carousel-inner" style="height: 420px;">
                     @foreach ($productFeaturedChunk as $key => $featuredItems)
+                    
                     <div class="item @if ($key==1) active @endif">
                         <ul class="thumbnails">
                         @foreach ($featuredItems as $item)
-                            
+                        @php $discountPrice = Product::getDiscountPrice($item['id']); @endphp
                             <li class="span3">
                                 <div class="thumbnail">
                                     <i class="tag"></i>
@@ -23,8 +27,19 @@
                                         <img src="{{ (empty($item['main_image'])) ? asset('img/adm_img/admin_product/small/no-image.png') : asset('img/adm_img/admin_product/small/'. $item['main_image']) }}">
                                     </a>
                                     <div class="caption">
-                                        <h5>{{ $item['product_name'] }}</h5>
-                                        <h4><a class="btn" href="product_details.html">VIEW</a> <span class="pull-right">Rs.{{ $item['product_price'] }}</span></h4>
+                                        <h5>{{ substr($item['product_name'],0,20) }}...</h5>
+                                        <h5>
+                                            <a href="{{ url('product', $item['id']) }}" class="btn">View</a>
+                                            <span>
+                                                    @if ($discountPrice > 0)
+                                                       <small> <del>Rs. {{$item['product_price']}} </del></small>
+                                                        Rs.{{ $discountPrice }}
+                                                    @else
+                                                    Rs.{{ $item['product_price'] }}
+                                                    @endif
+                                                    
+                                                </span>
+                                        </h5>
                                     </div>
                                 </div>
                             </li>

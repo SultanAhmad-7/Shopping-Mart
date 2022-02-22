@@ -69,6 +69,7 @@ $(document).ready(function() {
         let product_id = $(this).attr('product-id');
         if (size == '') {
             alert('Please Select a size');
+            return false;
         }
 
         $.ajax({
@@ -78,7 +79,14 @@ $(document).ready(function() {
             type: 'POST',
             success: function(result) {
                 //alert(result);
-                $('.getAttrPrice').html("Rs. " + result);
+                // alert(result['product_price']);
+                // alert(result['discounted_price']);
+                if (result['discount'] > 0) {
+                    $('.getAttrPrice').html("<small>Rs. <del>" + result['product_price'] + "</del></small>" + " Rs. " + result['final_price']);
+                } else {
+                    $('.getAttrPrice').html("Rs. " + result['product_price']);
+                }
+
             },
             // error: function(params) {
             //     alert('Error');

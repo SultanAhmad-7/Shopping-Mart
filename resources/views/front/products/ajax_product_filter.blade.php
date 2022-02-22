@@ -1,3 +1,6 @@
+@php
+   use App\Product;
+@endphp
 
     <div class="tab-pane" id="listView">
         @foreach ($categoryProducts as $product)
@@ -37,14 +40,30 @@
         <ul class="thumbnails">
             @foreach ($categoryProducts as $product)
             <li class="span3">
-                <div class="thumbnail">
-                    <a  href="{{ url('product', $product['id']) }}"><img style="width: 170px;" src="{{ (empty($product['main_image'])) ? asset('img/adm_img/admin_product/small/no-image.png') : asset('img/adm_img/admin_product/small/'. $product['main_image']) }}"></a>
+                <div class="thumbnail" style="height: 420px;">
+                    <a  href="{{ url('product', $product['id']) }}"><img style="width: 160px;" src="{{ (empty($product['main_image'])) ? asset('img/adm_img/admin_product/small/no-image.png') : asset('img/adm_img/admin_product/small/'. $product['main_image']) }}"></a>
                     <div class="caption">
                         <h5>{{ $product['product_name'] }}</h5>
                         <p>
                             {{ $product['brand']['name']}}
+                            
                         </p>
-                        <h4 style="text-align:center"><a class="btn" href="{{ url('product', $product['id']) }}"><i class="fas fa-search-plus"></i></a> <a class="btn" href="#">Add to <i class="fas fa-shopping-cart"></i></a> <a class="btn btn-primary" href="#">Rs.{{ $product['product_price'] }}</a></h4>
+                        @php
+                            $discountPrice = Product::getDiscountPrice($product['id']);
+                        @endphp
+                       
+                        
+                        <h4 style="text-align:center"><a class="btn" href="#">Add to <i class="fas fa-shopping-cart"></i></a>
+                            @if ($discountPrice > 0)
+                            <small> Rs. <del> {{ $product['product_price']}} </del>  </small>  
+                            <a class="btn btn-primary" href="#">
+                                
+                                Rs.{{ $discountPrice }}   
+                            </a>
+                            @else
+                            <a class="btn btn-primary" href="#">Rs. {{ $product['product_price']}} </a>
+                            @endif
+                        </h4>
                     </div>
                 </div>
             </li>

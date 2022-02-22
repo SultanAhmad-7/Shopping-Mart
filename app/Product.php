@@ -2,6 +2,7 @@
 
 namespace App;
 
+use CategorySeeder;
 use Illuminate\Database\Eloquent\Model;
 use ProductImageSeeder;
 
@@ -59,6 +60,49 @@ class Product extends Model
     public function carts()
     {
         return $this->hasMany(Cart::class);
+    }
+
+    public static function getDiscountPrice($product_id) 
+    {
+        $productDetail = Product::select('product_price','product_discount','category_id')->where('id',$product_id)->first()->toArray();
+        $categoryDetail = Category::select('category_discount')->where('id',$productDetail['category_id'])->first()->toArray();
+        
+        // Now Either Product Discount exists in database or not if yes then 
+        // at top priority Product Discount then Category Discount
+
+        if($productDetail['product_discount'] > 0)
+        {
+            $discountPrice = $productDetail['product_price'] - (($productDetail['product_price'] * $productDetail['product_discount']) / 100 );
+        }else if($categoryDetail['category_discount'] > 0){
+            $discountPrice = $productDetail['product_price'] - (($productDetail['product_price'] * $categoryDetail['category_discount']) / 100);
+        }else{
+            $discountPrice = 0;
+        }
+        return $discountPrice;
+    }
+
+    // on selecting the Size like Small, Medium, Large price will be shown with or without discount
+    // our prefer is discount than category vise discount 
+    public static function getAttrDiscountPrice($product_id,$size)
+    {
+        $proAttrDetail = ProductAttribute::where(['product_id' => $product_id,'size'=>$size])->first()->toArray();
+        $productDetail = Product::select('product_price','product_discount','category_id')->where('id',$product_id)->first()->toArray();
+        $categoryDetail = Category::select('category_discount')->where(['id' => $productDetail['category_id']])->first()->toArray();
+
+        if($productDetail['product_discount'] > 0)
+        {
+            $finalPrice = $proAttrDetail['price'] - (($proAttrDetail['price'] * $productDetail['product_discount']) / 100 );
+            $discount = $proAttrDetail['price'] - $finalPrice;
+        }
+        else if($categoryDetail['category_discount'] > 0 ) {
+            $finalPrice = $proAttrDetail['price'] - (($proAttrDetail['price'] * $categoryDetail['category_discount']) / 100);
+            $discount = $proAttrDetail['price'] - $finalPrice;
+        } else{
+            $finalPrice = $proAttrDetail['price'];
+            $discount = 0;
+        }
+
+        return array('product_price' => $proAttrDetail['price'], 'final_price' => $finalPrice, 'discount' => $discount);
     }
     
 }

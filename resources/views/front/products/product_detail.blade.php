@@ -1,3 +1,7 @@
+@php
+    use App\Product;
+@endphp
+
 @extends('layouts.front_layout')
 @section('title','Shopping Mart online Shopping cart List')
 
@@ -63,8 +67,18 @@
             <form class="form-horizontal qtyFrm" method="POST" action="{{ url('add-to-cart') }}">
                 @csrf
             <input type="text" style="display: none;" value="{{ $productDetail['id'] }}" name="product_id">
+            @php
+             $discountPrice = Product::getDiscountPrice($productDetail['id']);
+            @endphp
                 <div class="control-group">
-                    <h4 class="getAttrPrice">Rs. {{ $productDetail['product_price'] }}</h4>
+                    <h4 class="getAttrPrice">
+                        @if ($discountPrice > 0)
+                          <small style="width: 05px">  Rs.<del> {{ $productDetail['product_price']}} </del> </small>
+                            Rs. {{ $discountPrice }}
+                        @else
+                            Rs. {{ $productDetail['product_price'] }}
+                        @endif    
+                    </h4>
                     <select name="size" id="getPrice" class="span2 pull-left" product-id="{{ $productDetail['id']}}" required>
                         <option value="">Select</option>
                         @foreach ($productDetail['attributes'] as $productAttr)
@@ -72,8 +86,8 @@
                         @endforeach
                     </select>
                     <input type="number" name="quantity" class="span1" placeholder="Qty." />
-                    <button type="submit" class="btn btn-large btn-primary pull-right"> Add to cart <i
-                            class=" icon-shopping-cart"></i></button>
+                    <button type="submit" class="btn btn-large btn-primary pull-right"> Add to cart <i class=" icon-shopping-cart"></i>
+                    </button>
                 </div>
         </div>
         </form>
@@ -159,9 +173,10 @@
                                         Details</a>
                                     <br class="clr" />
                                 </div>
+                               
                                 <div class="span3 alignR">
                                     <form class="form-horizontal qtyFrm">
-                                        <h3> Rs.{{ $relatedProducts['product_price'] }}</h3>
+                                        <h3>Rs.{{ $relatedProducts['product_price'] }}</h3>
                                         <label class="checkbox">
                                             <input type="checkbox"> Adds product to compair
                                         </label><br />
@@ -181,6 +196,9 @@
                     <div class="tab-pane active" id="blockView">
                         <ul class="thumbnails">
                             @foreach ($productRelated as $relatedProducts)
+                            @php
+                            $discountPrice = Product::getDiscountPrice($productDetail['id']);
+                           @endphp
                                 <li class="span3">
                                     <div class="thumbnail">
                                         <a href="{{ url('product', $relatedProducts['id']) }}">
@@ -195,7 +213,18 @@
                                                     href="{{ url('product', $relatedProducts['id']) }}"> <i
                                                         class="fas fa-search-plus"></i></a> <a class="btn"
                                                     href="#">Add to <i class="fas fa-shopping-cart"></i></a>
-                                                <a class="btn btn-primary" href="#">Rs.{{ $relatedProducts['product_price'] }}</a></h4>
+                                                    @if ($discountPrice > 0)
+                                                  <small> <del>{{ $relatedProducts['product_price'] }}</del> </small>
+                                                    <a class="btn btn-primary" href="#">
+                                                       
+                                                        Rs. {{ $discountPrice }}
+                                                    </a>
+                                                @else
+                                                <a class="btn btn-primary" href="#">
+                                                   Rs. {{ $relatedProducts['product_price'] }}
+                                                </a>
+                                                @endif
+                                            </h4>
                                         </div>
                                     </div>
                                 </li>
