@@ -53,7 +53,13 @@ use \App\Section;
 		          <ul class="nav pull-right">
 		            <li><a href="#">Contact</a></li>
 		            <li class="divider-vertical"></li>
-		            <li><a href="#">Login</a></li>
+					@if (Auth::check())
+					<li><a href="#">My Account</a></li>
+					<li><a href="{{ url('logout') }}">Logout</a></li>	
+					@else
+					<li><a href="{{ url('login') }}">Login</a></li>	
+					@endif
+		            
 		          </ul>
 		        </div><!-- /.nav-collapse -->
 		      </div>

@@ -39,7 +39,10 @@
                  </a>
               </li>
           {{-- setting links --}}
-          @php $settingModuleArray = ['settings', 'update-admin-detail','update-admin-password']; @endphp
+          @php 
+            $settingModuleArray = ['settings', 'update-admin-detail','update-admin-password'];
+          @endphp
+
           <li class="nav-item {{in_array($uri, $settingModuleArray) ? "menu-open" : ""}} menu-open">
             <a href="#" class="nav-link {{ in_array($uri, $settingModuleArray) ? "active" : ""}}">
               <i class="nav-icon fas fa-th"></i>
@@ -64,7 +67,9 @@
             </ul>
           </li>
           {{-- User links Defined Here --}}
-          @php $userModuleArray = ['users', 'edit_user','add_user']; @endphp
+          @php 
+            $userModuleArray = ['users', 'edit_user','add_user']; 
+          @endphp
           <li class="nav-item {{ in_array( $uri, $userModuleArray) ? "menu-open" : ""}}">
             <a href="#" class="nav-link {{ in_array( $uri, $userModuleArray) ? "active" : ""}}" >
               <i class="nav-icon fas fa-copy"></i>

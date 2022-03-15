@@ -53,7 +53,7 @@
         @if (isset($_GET['sort']) && !empty($_GET['sort']))
             {{ $categoryProducts->appends(['sort' => 'newest-arrivals'])->links() }}
         @else
-        {{ $categoryProducts->links()}}
+            {{ $categoryProducts->links() }}
         @endif
     </div>
     <br class="clr"/>

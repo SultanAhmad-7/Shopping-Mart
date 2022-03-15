@@ -20,15 +20,25 @@ use App\Category;
 
 Route::namespace('Front')->group(function(){
     Route::get('/' , 'HomeController@index')->name('home.index');
-    // Route::get('/about', function(){
-    //     return "about";
-    // });
+    /** Login/Registration User */
+    Route::get('/login', 'UserLoginController@loginForm');
+    Route::post('/login', 'UserLoginController@loginUser');
+    Route::get('/register', 'UserRegistrationController@registerForm');
+    // check if email already exists.
+    Route::match(['get','post'],'/check-email', 'UserRegistrationController@checkEmail');
+    Route::post('/register', 'UserRegistrationController@registerUser');
+    Route::get('/logout','UserLoginController@logoutUser');
+    /** Login/Registration User End Routes. */
     Route::get('/cart','CartController@cart');
     // To avoid errors make sure this url must be at down.
     Route::get('/{url}','ProductsController@index')->name('product-list.index');
     Route::get('product/{id}', 'ProductsController@show');
     Route::post('/get-product-price', 'ProductsController@productPrice');
     Route::post('/add-to-cart', 'ProductsController@addToCart');
+    Route::post('/update-cart-quantity', 'CartController@updateCartQuantity');
+    Route::post('/cart-item-delete', 'CartController@deleteCartQuantity');
+   
+  
     
 
     // Making Category URL dynamic
@@ -40,9 +50,9 @@ Route::namespace('Front')->group(function(){
     
    
 });
-Auth::routes();
+// Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
 
 // Admin Login Routes
 
