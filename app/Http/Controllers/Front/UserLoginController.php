@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Front;
 
 use App\Cart;
-use App\Http\Controllers\Controller;
+use App\User;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -23,6 +24,15 @@ class UserLoginController extends Controller
             $data = $request->all();
             if(Auth::attempt(['email' => $data['email'], 'password' => $data['password']]))
             {
+                // check either user has status 0 or 1 if 0, invalid email/password
+                $userEmail = User::where(['email' => $data['email']])->first();
+                if($userEmail['status'] == 0)
+                {
+                    Auth::logout();
+                    Session::flash('message', 'Please Confirm your Email Address.');
+                    return redirect()->back();
+                }
+                // update cart table if the user added with session record,
                 if(!empty(Session::get('session_id')))
                 {
                     $user_id = Auth::user()->id;

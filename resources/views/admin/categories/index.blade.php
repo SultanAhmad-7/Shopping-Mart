@@ -23,11 +23,11 @@
   <!-- Main content -->
   <section class="content">
     <div class="container-fluid">
-      @if(Session::has('success_msg'))
+      @if( session('success_msg'))
         <div class="alert alert-success alert-dismissible mt-1">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
           <h5><i class="icon fas fa-check"></i> Alert!</h5>
-          {{ Session::get('success_msg') }}
+          {{ session('success_msg') }}
         </div>
       @endif
       <div class="card">
@@ -52,9 +52,9 @@
               </tr>
             </thead>
             <tbody>
-              @php
+              {{-- @php
                 $i=1;
-              @endphp
+              @endphp --}}
               @forelse($categories as $category)
                 @if(!isset($category->parentCategory->category_name))
                   @php
@@ -67,7 +67,7 @@
                   @endphp
                 @endif
                 <tr>
-                  <td>{{ $i++ }}</td>
+                  <td>{{ $loop->iteration }}</td>
                   <td>{{ $category->category_name }}</td>
                   <td> {{ $parent_category }}</td>
                   <td>{{ $category->sections->name }}</td>

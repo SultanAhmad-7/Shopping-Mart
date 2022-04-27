@@ -12,6 +12,12 @@
         <div class="card-header">
             <div class="card-title">
                 <h3> Login</h3>
+                @if(Session::has('success'))
+        <div class="alert alert-success alert-dismissible mt-1">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          {{ Session::get('success') }}
+        </div>
+      @endif
             </div>
         </div>
         <div class="card-body">
@@ -24,6 +30,11 @@
                       {{ Session('message') }}
                     </div>
                   @endif
+                  @if(Session('error_message'))
+                  <div class="alert alert-danger alert-dismissible mt-1">
+                    {{ Session('error_message') }}
+                  </div>
+                @endif
                     <div class="well">
                         <form id="loginForm" action="{{ url('/login') }}" method="POST">
                             @csrf

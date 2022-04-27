@@ -472,6 +472,7 @@ class ProductController extends Controller
                       $image_tmp->save($imagePathL); // 1040 x 1200
                       $image_tmp->resize(520,600)->save($imagePathM);
                       $image_tmp->resize(260,300)->save($imagePathS);
+                      // saving record in the database.
                       $productImage->image = $imageName;
                       $productImage->product_id = $id;
                       $productImage->status = 1;

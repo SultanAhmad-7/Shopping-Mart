@@ -85,7 +85,7 @@
                             <option value="{{ $productAttr['size']}} " >{{ $productAttr['size'] }}</option>  
                         @endforeach
                     </select>
-                    <input type="number" name="quantity" class="span1" placeholder="Qty." />
+                    <input type="number" name="quantity" class="span1" placeholder="Qty." onkeypress="return event.charCode >= 48" min="1" max="{{ $productStocks }}"/>
                     <button type="submit" class="btn btn-large btn-primary pull-right"> Add to cart <i class=" icon-shopping-cart"></i>
                     </button>
                 </div>

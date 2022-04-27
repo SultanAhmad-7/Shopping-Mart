@@ -22,12 +22,19 @@ Route::namespace('Front')->group(function(){
     Route::get('/' , 'HomeController@index')->name('home.index');
     /** Login/Registration User */
     Route::get('/login', 'UserLoginController@loginForm');
+    // login data send to loginUser() method.
     Route::post('/login', 'UserLoginController@loginUser');
+    // registerForm() method display the register form.
     Route::get('/register', 'UserRegistrationController@registerForm');
     // check if email already exists.
     Route::match(['get','post'],'/check-email', 'UserRegistrationController@checkEmail');
+    // registerUser() method send user's record to database and confirmation link.
     Route::post('/register', 'UserRegistrationController@registerUser');
+    // logoutUser() method to logout user.
     Route::get('/logout','UserLoginController@logoutUser');
+    // Email Confirmation Route.
+    Route::match(['get','post'],'/confirm/{code}', 'UserRegistrationController@confirmEmail');
+    
     /** Login/Registration User End Routes. */
     Route::get('/cart','CartController@cart');
     // To avoid errors make sure this url must be at down.
